@@ -216,9 +216,8 @@ public class Drive extends SubsystemBase {
     // Update gyro alert
     gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
 
-    /*   MegaTag Implementation, to fix this I just need to know how I can access our angular rate as a double. (See line 409)
-    -Aiden Tat */
-    /*
+    /*   //MegaTag Implementation
+  
     boolean useMegaTag2 = true; // set to false to use MegaTag1
     boolean doRejectUpdate = false;
 
