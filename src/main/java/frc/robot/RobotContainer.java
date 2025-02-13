@@ -16,13 +16,19 @@ package frc.robot;
 import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.ClimberDown;
+import frc.robot.commands.ClimberUp;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.IntakeUp;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -47,9 +53,47 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
+  // private final Camera
+  // (Command)PathPlannerAuto forward;
+
+  static final NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
+  static final NetworkTable limelightTable = ntInstance.getTable("limelight");
+
+  static final ClimberUp climberLift = new ClimberUp();
+  static final ClimberDown climberlower = new ClimberDown();
+  static final IntakeUp liftIntake = new IntakeUp();
+  public static final DutyCycleEncoder intakeEncoder = new DutyCycleEncoder(9);
+
+  // simple proportional turning control with Limelight.
+  // "proportional control" is a control algorithm in which the output is proportional to the error.
+  // in this case, we are going to return an angular velocity that is proportional to the
+  // "tx" value from the Limelight.
+  double limelight_aim_proportional() {
+    // kP (constant of proportionality)
+    // this is a hand-tuned number that determines the aggressiveness of our proportional control
+    // loop
+    // if it is too high, the robot will oscillate around.
+    // if it is too low, the robot will never reach its target
+    // if the robot never turns in the correct direction, kP should be inverted.
+    double kP = .035;
+
+    // tx ranges from (-hfov/2) to (hfov/2) in degrees. If your target is on the rightmost edge of
+    // your limelight 3 feed, tx should return roughly 31 degrees.
+    double targetingAngularVelocity = LimelightHelpers.getTX("limelight") * kP;
+
+    // invert since tx is positive when the target is to the right of the crosshair
+    targetingAngularVelocity *= -1.0;
+
+    return targetingAngularVelocity;
+  }
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+    // NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
+    // NetworkTable limelightTable = ntInstance.getTable("limelight");
+    // public static ClimberMotor climber; = new ClimberMotor();
+
     switch (Constants.currentMode) {
       case REAL:
         // Real robot, instantiate hardware IO implementations
@@ -85,8 +129,12 @@ public class RobotContainer {
         break;
     }
 
+    // ClimbUp climbCommand = new ClimbUp();
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+
+    // autoChooser.addOption("Forward", new PathPlannerAuto("Forward"));
 
     // Set up SysId routines
     autoChooser.addOption(
@@ -105,6 +153,7 @@ public class RobotContainer {
         "Drive SysId (Dynamic Reverse)", drive.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     // Configure the button bindings
+    // forward = new PathPlannerAuto("Forward");
     configureButtonBindings();
   }
 
@@ -136,6 +185,9 @@ public class RobotContainer {
     // Switch to X pattern when X button is pressed
     controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
+    // Aiden Work for Visial servo go here
+    // controller.y().onTrue()
+
     // Reset gyro to 0° when LB button is pressed
     controller
         .leftBumper()
@@ -146,14 +198,32 @@ public class RobotContainer {
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
                 .ignoringDisable(true));
+    // runs climb up command when b is pressed
+    controller.b().onTrue(climberLift.andThen(climberlower));
+    controller.y().onTrue(liftIntake);
   }
+  // }
 
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
+  //     should turn to certain angle
+  /*
+       controller
+           .y()
+           .whileTrue(
+               DriveCommands.joystickDrive(
+                   drive,
+                   () -> -controller.getLeftY(),
+                   () -> -controller.getLeftX(),
+                   () -> (Drive.getRotation2().getDegrees())));
+    }
+  */
+
+  //   * Use this to pass the autonomous command to the main {@link Robot} class.
+  //   *
+  //  * @return the command to run in autonomous
+
   public Command getAutonomousCommand() {
+    //     PathPlannerAuto forward = new PathPlannerAuto("Forward");
     return autoChooser.get();
+    //     return new PathPlannerAuto("Forward");
   }
 }

@@ -39,6 +39,8 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -68,8 +70,14 @@ public class Drive extends SubsystemBase {
               Math.hypot(TunerConstants.BackLeft.LocationX, TunerConstants.BackLeft.LocationY),
               Math.hypot(TunerConstants.BackRight.LocationX, TunerConstants.BackRight.LocationY)));
 
+  static final NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
+  static final NetworkTable limelightTable = ntInstance.getTable("limelight");
+  public static double tx;
+  public static double currentRotation;
+  public static double newRotation;
+
   // PathPlanner config constants
-  private static final double ROBOT_MASS_KG = 74.088;
+  private static final double ROBOT_MASS_KG = 35.000;
   private static final double ROBOT_MOI = 6.883;
   private static final double WHEEL_COF = 1.2;
   private static final RobotConfig PP_CONFIG =
@@ -216,58 +224,68 @@ public class Drive extends SubsystemBase {
     // Update gyro alert
     gyroDisconnectedAlert.set(!gyroInputs.connected && Constants.currentMode != Mode.SIM);
 
-    /*   //MegaTag Implementation
-  
-    boolean useMegaTag2 = true; // set to false to use MegaTag1
-    boolean doRejectUpdate = false;
+    // MegaTag Implementation
 
-    {
-      if (useMegaTag2 == false) {
-        LimelightHelpers.PoseEstimate mt1 =
-            LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+    // boolean useMegaTag2 = true; // set to false to use MegaTag1
+    // boolean doRejectUpdate = false;
 
-        if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
-          if (mt1.rawFiducials[0].ambiguity > .7) {
-            doRejectUpdate = true;
-          }
-          if (mt1.rawFiducials[0].distToCamera > 3) {
-            doRejectUpdate = true;
-          }
-        }
-        if (mt1.tagCount == 0) {
-          doRejectUpdate = true;
-        }
+    // {
+    //   if (!useMegaTag2) {
+    //     LimelightHelpers.PoseEstimate mt1 =
+    //         LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
 
-        if (!doRejectUpdate) {
-          poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.5, .5, 9999999));
-          poseEstimator.addVisionMeasurement(mt1.pose, mt1.timestampSeconds);
-        }
-      } else if (useMegaTag2 == true) {
-        LimelightHelpers.SetRobotOrientation(
-            "limelight",
-            poseEstimator.getEstimatedPosition().getRotation().getDegrees(),
-            0,
-            0,
-            0,
-            0,
-            0);
-        LimelightHelpers.PoseEstimate mt2 =
-            LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-        if (Math.abs(Math.toDegrees(gyroInputs.yawVelocityRadPerSec))
-            > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision
-        // updates
-        {
-          doRejectUpdate = true;
-        }
-        if (mt2.tagCount == 0) {
-          doRejectUpdate = true;
-        }
-        if (!doRejectUpdate) {
-          poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
-          poseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
-        }
-      }
-    }*/
+    //     if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
+    //       if (mt1.rawFiducials[0].ambiguity > .7) {
+    //         doRejectUpdate = true;
+    //       }
+    //       if (mt1.rawFiducials[0].distToCamera > 3) {
+    //         doRejectUpdate = true;
+    //       }
+    //     }
+    //     if (mt1.tagCount == 0) {
+    //       doRejectUpdate = true;
+    //     }
+
+    //     if (!doRejectUpdate) {
+    //       poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.5, .5, 9999999));
+    //       poseEstimator.addVisionMeasurement(mt1.pose, mt1.timestampSeconds);
+    //     }
+    //   } else if (useMegaTag2) {
+    //     LimelightHelpers.SetRobotOrientation(
+    //         "limelight",
+    //         poseEstimator.getEstimatedPosition().getRotation().getDegrees(),
+    //         0,
+    //         0,
+    //         0,
+    //         0,
+    //         0);
+    //     LimelightHelpers.PoseEstimate mt2 =
+    //         LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+    //     if (Math.abs(Math.toDegrees(gyroInputs.yawVelocityRadPerSec))
+    //         > 720) // if our angular velocity is greater than 720 degrees per second, ignore
+    // vision
+    //     // updates
+    //     {
+    //       doRejectUpdate = true;
+    //     }
+    //     if (mt2.tagCount == 0) {
+    //       doRejectUpdate = true;
+    //     }
+    //     if (!doRejectUpdate) {
+    //       poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
+    //       poseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
+    //     }
+    //   }
+    // }
+
+    // obtaians updaed values from table
+
+    // if (limelightTable.getEntry("tv").getDouble(0) == 1) {
+    //   System.out.print("Detected April Tag");
+    //   tx = limelightTable.getEntry("tx").getDouble(0);
+    //   currentRotation = this.getRotation().getDegrees();
+    //   newRotation = Math.toRadians(currentRotation + tx);
+    // }
   }
 
   /**
