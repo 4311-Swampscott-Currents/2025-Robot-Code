@@ -1,4 +1,4 @@
-package frc.robot.subsystems.drive;
+package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
 import com.ctre.phoenix6.controls.DutyCycleOut;

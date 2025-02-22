@@ -1,7 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.drive.ClimberMotor;
+import frc.robot.subsystems.ClimberMotor;
 
 public class ClimberDown extends Command {
   // Code runs, but motor does not turn...

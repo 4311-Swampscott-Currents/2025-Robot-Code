@@ -2,7 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.drive.Intake;
+import frc.robot.subsystems.Intake;
 
 public class IntakeUp extends Command {
   // Code runs, but motor does not turn...
