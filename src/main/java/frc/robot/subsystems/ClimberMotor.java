@@ -1,24 +1,16 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
-import com.ctre.phoenix6.controls.DutyCycleOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import edu.wpi.first.units.measure.Angle;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class ClimberMotor extends SubsystemBase {
 
-  public static final TalonFX climber = new TalonFX(Constants.climberMotorID);
-  // public static Angle position;
+  private final TalonFX climber = new TalonFX(Constants.climberMotorID);
 
-  // TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
-
-  // set slot 0 gains and leave every other config factory-default
-  // Slot0Configs slot0Configs = talonFXConfigs.Slot0;
-
-  static final DutyCycleOut climberRequest = new DutyCycleOut(0.0);
+  // static final DutyCycleOut climberRequest = new DutyCycleOut(0.0);
   SoftwareLimitSwitchConfigs limitConfig = new SoftwareLimitSwitchConfigs();
 
   public ClimberMotor() {
@@ -35,25 +27,21 @@ public class ClimberMotor extends SubsystemBase {
     // climber.getConfigurator().apply(talonFXConfigs, 0.050);
 
     limitConfig.ForwardSoftLimitEnable = true;
-    limitConfig.ForwardSoftLimitThreshold = Constants.INTAKE_MAX_ANGLE_UP;
+    limitConfig.ForwardSoftLimitThreshold = Constants.CLIMBER_MAX_ANGLE_UP;
     limitConfig.ReverseSoftLimitEnable = true;
-    limitConfig.ReverseSoftLimitThreshold = Constants.INTAKE_MIN_ANGLE_DOWN;
+    limitConfig.ReverseSoftLimitThreshold = Constants.CLIMBER_MIN_ANGLE_DOWN;
     climber.getConfigurator().apply(limitConfig);
   }
 
-  public static void enterBrake() {
+  public void enterBrake() {
     climber.setNeutralMode(NeutralModeValue.Brake);
   }
 
-  public static void extiBrake() {
+  public void extiBrake() {
     climber.setNeutralMode(NeutralModeValue.Coast);
   }
 
-  public static Angle getClimberPosition() {
-    return climber.getPosition().getValue();
-  }
-
-  public static void configureClimber() {
+  public void configureClimber() {
     //   var slot0Configs = new Slot0Configs();
     //   slot0Configs.kP = 2.4; // An error of 1 rotation results in 2.4 V output
     //   slot0Configs.kI = 0; // no output for integrated error
@@ -61,17 +49,17 @@ public class ClimberMotor extends SubsystemBase {
 
     //   climber.getConfigurator().apply(slot0Configs);
     enterBrake();
-    climber.setPosition(0);
+    // climber.setPosition(0);
   }
 
-  public static void lowerClimber() {
-    climber.setControl(climberRequest.withOutput(-Constants.climberMotorSpeed));
+  public void lowerClimber() {
+    climber.set(-Constants.climberMotorSpeed);
     // position = climber.getPosition().getValue();
     // climber.setPosition(0);
   }
 
-  public static void raiseClimber() {
-    climber.setControl(climberRequest.withOutput(Constants.climberMotorSpeed));
+  public void raiseClimber() {
+    climber.set(Constants.climberMotorSpeed);
     // position = climber.getPosition().getValue();
     // climber.setPosition(90);
   }
@@ -84,7 +72,7 @@ public class ClimberMotor extends SubsystemBase {
   //     climber.setControl(m_request.withPosition(position));
   //   }
 
-  public static void stopClimber() {
+  public void stopClimber() {
     climber.stopMotor();
   }
 }

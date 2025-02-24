@@ -25,11 +25,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.ClimberDown;
 import frc.robot.commands.ClimberUp;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.IntakeUp;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.ClimberMotor;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -58,11 +59,16 @@ public class RobotContainer {
 
   static final NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
   static final NetworkTable limelightTable = ntInstance.getTable("limelight");
+  public final ClimberMotor climber_m = new ClimberMotor();
+  public final Intake intake_m = new Intake();
 
-  static final ClimberUp climberLift = new ClimberUp();
-  static final ClimberDown climberlower = new ClimberDown();
-  static final IntakeUp liftIntake = new IntakeUp();
-  public static final DutyCycleEncoder intakeEncoder = new DutyCycleEncoder(9);
+  // static final ClimberUp climberLift = new ClimberUp();
+  // static final ClimberDown climberlower = new ClimberDown();
+  // static final IntakeUp liftIntake = new IntakeUp();
+  public static final DutyCycleEncoder intakeEncoder =
+      new DutyCycleEncoder(Constants.intakeEncoderID);
+  public static final DutyCycleEncoder climberEncoder =
+      new DutyCycleEncoder(Constants.climberEncoderID);
 
   // simple proportional turning control with Limelight.
   // "proportional control" is a control algorithm in which the output is proportional to the error.
@@ -93,6 +99,8 @@ public class RobotContainer {
     // NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
     // NetworkTable limelightTable = ntInstance.getTable("limelight");
     // public static ClimberMotor climber; = new ClimberMotor();
+
+    climber_m.configureClimber();
 
     switch (Constants.currentMode) {
       case REAL:
@@ -199,8 +207,9 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
     // runs climb up command when b is pressed
-    controller.b().onTrue(climberLift.andThen(climberlower));
-    controller.y().onTrue(liftIntake);
+    controller.b().onTrue(new ClimberUp(climber_m));
+    // runs climb down command when x is pressed
+    controller.y().onTrue(new IntakeUp(intake_m));
   }
   // }
 

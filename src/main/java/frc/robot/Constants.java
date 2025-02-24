@@ -40,6 +40,10 @@ public final class Constants {
   public static final int intakeWheelsMotorID = 15;
   public static final int intakeLiftMotorID = 16;
 
+  // encoder ids
+  public static final int climberEncoderID = 0;
+  public static final int intakeEncoderID = 1;
+
   // motor speeds
   public static final double climberMotorSpeed = 0.2;
   public static final double intakeWheelSpeed = 0.2;
@@ -50,8 +54,9 @@ public final class Constants {
 
   // encoder off sets
   public static final double climberEncoderOffset = 0;
+  public static final double intakeEncoderOffset = 0;
 
   // extrema for motor angles
-  public static final double INTAKE_MAX_ANGLE_UP = 90;
-  public static final double INTAKE_MIN_ANGLE_DOWN = 0;
+  public static final double CLIMBER_MAX_ANGLE_UP = 90;
+  public static final double CLIMBER_MIN_ANGLE_DOWN = 0;
 }

@@ -8,16 +8,22 @@ public class ClimberUp extends Command {
   int timer;
   public static double position;
   public static boolean raising;
+  private final ClimberMotor m_climber;
   // public static ClimberMotor climber;
 
   // Called when the command is initially scheduled.
+
+  public ClimberUp(ClimberMotor climber) {
+    m_climber = climber;
+    addRequirements(m_climber);
+  }
 
   @Override
   public void initialize() {
 
     // in init function, set slot 0 gains
     // climber = new ClimberMotor();
-    ClimberMotor.configureClimber();
+    m_climber.raiseClimber();
     // if (ClimberMotor.getClimberPosition() == 0) {
     //   raising = true;
     // }
@@ -27,23 +33,9 @@ public class ClimberUp extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ClimberMotor.raiseClimber();
+
     // ClimberMotor.climber.set(0.2);
     System.out.println("spinning " + timer);
-
-    // position = ClimberMotor.climber.getPosition().getValueAsDouble();
-    // should raise to 90 degrees if it is flat
-    // if (raising) {
-    //   System.out.println("raising");
-    //   ClimberMotor.raiseClimber();
-    //   // raising = true;
-    // }
-    // // should go down to 0 degrees if it is at 90 degree angle
-    // else if (!raising) {
-    //   System.out.println("lowering");
-    //   ClimberMotor.lowerClimber();
-    // raising = false;
-    // }
 
     timer++;
   }
@@ -51,24 +43,19 @@ public class ClimberUp extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    ClimberMotor.stopClimber();
+    m_climber.stopClimber();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    // if (Robot.climberPos > 90) {
+    //   return true;
+    // }
     if (timer > 500) {
       return true;
     }
-    // if (raising) {
-    //   System.out.println("Finished raising");
-    //   return ClimberMotor.getClimberPosition() >= 90;
-    // }
-    // if (!raising) {
-    //   System.out.println("Finished lowering");
-    //   System.out.println(ClimberMotor.getClimberPosition());
-    //   return ClimberMotor.getClimberPosition() <= 0;
-    // }
+
     return false;
   }
 }

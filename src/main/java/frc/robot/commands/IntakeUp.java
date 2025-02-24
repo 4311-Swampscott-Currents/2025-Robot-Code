@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
 
 public class IntakeUp extends Command {
@@ -9,14 +8,20 @@ public class IntakeUp extends Command {
   int timer;
   public static double position;
   public static boolean raising;
+  private final Intake m_intake;
   // public static ClimberMotor climber;
 
   // Called when the command is initially scheduled.
 
+  public IntakeUp(Intake intake) {
+    m_intake = intake;
+    addRequirements(m_intake);
+  }
+
   @Override
   public void initialize() {
 
-    Intake.configureIntake();
+    m_intake.raiseIntake();
     timer = 0;
   }
 
@@ -24,24 +29,22 @@ public class IntakeUp extends Command {
   @Override
   public void execute() {
 
-    Intake.raiseIntake();
-
     timer++;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    Intake.stopIntake();
+    m_intake.stopIntake();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
 
-    if (Robot.intakePos > 90) {
-      return true;
-    }
+    // if (Robot.intakePos > 90) {
+    //   return true;
+    // }
     if (timer > 500) {
       return true;
     }
