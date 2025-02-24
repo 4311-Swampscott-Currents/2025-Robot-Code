@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -17,7 +18,7 @@ public class ClimberMotor extends SubsystemBase {
 
     // climber = new TalonFX(climberMotorID);
     // position.magnitude();
-    // climber.setPosition(position);
+    climber.setPosition(0);
     // slot0Configs.kV = 0.12;
     // slot0Configs.kP = 0.11;
     // slot0Configs.kI = 0.5;
@@ -52,17 +53,15 @@ public class ClimberMotor extends SubsystemBase {
     // climber.setPosition(0);
   }
 
-  public void lowerClimber() {
-    climber.set(-Constants.climberMotorSpeed);
+  public Command lowerClimber() {
+    return this.runOnce(() -> climber.set(Constants.climberMotorSpeed));
+
     // position = climber.getPosition().getValue();
     // climber.setPosition(0);
   }
 
-  public void raiseClimber() {
-    climber.set(Constants.climberMotorSpeed);
-    // position = climber.getPosition().getValue();
-    // climber.setPosition(90);
-  }
+  // position = climber.getPosition().getValue();
+  // climber.setPosition(90);
 
   //   public static void setClimberPos(double position)
   //   {

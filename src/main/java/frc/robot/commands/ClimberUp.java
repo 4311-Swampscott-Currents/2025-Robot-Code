@@ -23,7 +23,7 @@ public class ClimberUp extends Command {
 
     // in init function, set slot 0 gains
     // climber = new ClimberMotor();
-    m_climber.raiseClimber();
+    // m_climber.raiseClimber();
     // if (ClimberMotor.getClimberPosition() == 0) {
     //   raising = true;
     // }

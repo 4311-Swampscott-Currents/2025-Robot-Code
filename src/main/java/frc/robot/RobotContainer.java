@@ -25,7 +25,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.ClimberUp;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.IntakeUp;
 import frc.robot.generated.TunerConstants;
@@ -59,8 +58,8 @@ public class RobotContainer {
 
   static final NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
   static final NetworkTable limelightTable = ntInstance.getTable("limelight");
-  public final ClimberMotor climber_m = new ClimberMotor();
-  public final Intake intake_m = new Intake();
+  public static final ClimberMotor climber_m = new ClimberMotor();
+  public static final Intake intake_m = new Intake();
 
   // static final ClimberUp climberLift = new ClimberUp();
   // static final ClimberDown climberlower = new ClimberDown();
@@ -101,6 +100,8 @@ public class RobotContainer {
     // public static ClimberMotor climber; = new ClimberMotor();
 
     climber_m.configureClimber();
+    intake_m.armEnterBrake();
+    intake_m.wheelsEnterBrake();
 
     switch (Constants.currentMode) {
       case REAL:
@@ -207,7 +208,7 @@ public class RobotContainer {
                     drive)
                 .ignoringDisable(true));
     // runs climb up command when b is pressed
-    controller.b().onTrue(new ClimberUp(climber_m));
+    controller.b().whileTrue(climber_m.lowerClimber());
     // runs climb down command when x is pressed
     controller.y().onTrue(new IntakeUp(intake_m));
   }

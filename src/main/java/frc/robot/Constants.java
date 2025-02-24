@@ -59,4 +59,7 @@ public final class Constants {
   // extrema for motor angles
   public static final double CLIMBER_MAX_ANGLE_UP = 90;
   public static final double CLIMBER_MIN_ANGLE_DOWN = 0;
+
+  public static final double intakeInitalMaxAngle = 45;
+  public static final double intakeFinalMaxAngle = 90;
 }

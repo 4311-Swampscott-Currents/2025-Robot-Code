@@ -113,13 +113,13 @@ public class Robot extends LoggedRobot {
   /** This function is called periodically during all modes. */
   @Override
   public void robotPeriodic() {
-    // intakePos = RobotContainer.intakeEncoder.get() * 360;
-    // intakePos -= Constants.intakeEncoderOffset;
-    // RobotContainer.intake_m.setPosition(intakePos);
+    intakePos = RobotContainer.intakeEncoder.get() * 360;
+    intakePos -= Constants.intakeEncoderOffset;
+    RobotContainer.intake_m.setArmPos(intakePos);
 
     // climberPos = RobotContainer.climberEncoder.get() * 360;
-    // climberPos -= Constants.climberEncoderOffset;
-    // ClimberMotor.climber.setPosition(climberPos);
+    // RobotContainer.climberEncoder.getFrequency();
+    // RobotContainer.climber_m.setClimberPos(climberPos);
 
     // Switch thread to high priority to improve loop timing
     Threads.setCurrentThreadPriority(true, 99);
