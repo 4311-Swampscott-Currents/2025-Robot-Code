@@ -1,6 +1,6 @@
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.OpenLoopRampsConfigs;
+import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkBase;
@@ -17,12 +17,20 @@ public class Intake extends SubsystemBase {
   private final SparkMax intakeWheels =
       new SparkMax(Constants.intakeWheelsMotorID, MotorType.kBrushed);
 
-  public final TalonFX intakeArm = new TalonFX(Constants.intakeLiftMotorID);
+  private final TalonFX intakeArm = new TalonFX(Constants.intakeLiftMotorID);
 
-  public static final OpenLoopRampsConfigs configIntakeLift =
-      new OpenLoopRampsConfigs().withDutyCycleOpenLoopRampPeriod(0.5);
+  SoftwareLimitSwitchConfigs intakeLimitConfig = new SoftwareLimitSwitchConfigs();
 
-  // static final DutyCycleOut intakeRequest = new DutyCycleOut(0.0);
+  public Intake() {
+    armEnterBrake();
+    wheelsEnterBrake();
+
+    intakeLimitConfig.ForwardSoftLimitEnable = true;
+    intakeLimitConfig.ForwardSoftLimitThreshold = Constants.intakeFinalMaxAngle;
+    intakeLimitConfig.ReverseSoftLimitEnable = true;
+    intakeLimitConfig.ReverseSoftLimitThreshold = Constants.intakeMinAngle;
+    intakeArm.getConfigurator().apply(intakeLimitConfig);
+  }
 
   public void setArmPos(double armEncoderPos) {
     intakeArm.setPosition(armEncoderPos);
@@ -36,32 +44,7 @@ public class Intake extends SubsystemBase {
     intakeArm.setNeutralMode(NeutralModeValue.Coast);
   }
 
-  public void lowerIntake() {
-    intakeArm.set(-Constants.intakeMotorSpeed);
-    // position = climber.getPosition().getValue();
-    // climber.setPosition(0);
-  }
-
-  public void raiseIntake() {
-    intakeArm.set(Constants.intakeMotorSpeed);
-    // position = climber.getPosition().getValue();
-    // climber.setPosition(90);
-  }
-
-  //   public static void setClimberPos(double position)
-  //   {
-  //     final PositionVoltage m_request = new PositionVoltage(0).withSlot(0);
-
-  //     // set position to 10 rotations
-  //     climber.setControl(m_request.withPosition(position));
-  //   }
-
-  public void stopIntake() {
-    intakeArm.stopMotor();
-  }
-
   public void wheelsEnterBrake() {
-
     intakeWheelsconfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
     intakeWheels.configure(
         intakeWheelsconfig,
@@ -69,12 +52,20 @@ public class Intake extends SubsystemBase {
         SparkBase.PersistMode.kPersistParameters);
   }
 
-  public void wheelExitBrake() {
+  public void wheelsExitBrake() {
     intakeWheelsconfig.idleMode(SparkBaseConfig.IdleMode.kCoast);
     intakeWheels.configure(
         intakeWheelsconfig,
         SparkBase.ResetMode.kResetSafeParameters,
         SparkBase.PersistMode.kPersistParameters);
+  }
+
+  public void lowerIntake() {
+    intakeArm.set(-Constants.intakeMotorSpeed);
+  }
+
+  public void raiseIntake() {
+    intakeArm.set(Constants.intakeMotorSpeed);
   }
 
   public void intakeWheelsSpinIn() {
@@ -83,6 +74,24 @@ public class Intake extends SubsystemBase {
 
   public void intakeWheelsSpinOut() {
     intakeWheels.set(-Constants.intakeWheelSpeed);
+  }
+
+  // public void turnIntakeArmToPos(double newPos, double currentPos) {
+  //   while(newPos != currentPos) {
+  //     if(newPos > currentPos) {
+  //       intakeArm.set(Constants.intakeMotorSpeed);
+  //     } else {
+  //       intakeArm.set(-Constants.intakeMotorSpeed);
+  //     }
+  //   }
+  // }
+
+  public void stopIntakeArm() {
+    intakeArm.stopMotor();
+  }
+
+  public void stopWheels() {
+    intakeWheels.stopMotor();
   }
 
   public void configureIntake() {

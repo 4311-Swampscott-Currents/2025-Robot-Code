@@ -26,7 +26,6 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.IntakeUp;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberMotor;
 import frc.robot.subsystems.Intake;
@@ -66,8 +65,6 @@ public class RobotContainer {
   // static final IntakeUp liftIntake = new IntakeUp();
   public static final DutyCycleEncoder intakeEncoder =
       new DutyCycleEncoder(Constants.intakeEncoderID);
-  public static final DutyCycleEncoder climberEncoder =
-      new DutyCycleEncoder(Constants.climberEncoderID);
 
   // simple proportional turning control with Limelight.
   // "proportional control" is a control algorithm in which the output is proportional to the error.
@@ -98,10 +95,6 @@ public class RobotContainer {
     // NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
     // NetworkTable limelightTable = ntInstance.getTable("limelight");
     // public static ClimberMotor climber; = new ClimberMotor();
-
-    climber_m.configureClimber();
-    intake_m.armEnterBrake();
-    intake_m.wheelsEnterBrake();
 
     switch (Constants.currentMode) {
       case REAL:
@@ -209,8 +202,9 @@ public class RobotContainer {
                 .ignoringDisable(true));
     // runs climb up command when b is pressed
     controller.b().whileTrue(climber_m.lowerClimber());
+    controller.y().whileTrue(climber_m.raiseClimber());
     // runs climb down command when x is pressed
-    controller.y().onTrue(new IntakeUp(intake_m));
+    // controller.y().onTrue(new IntakeUp(intake_m));
   }
   // }
 

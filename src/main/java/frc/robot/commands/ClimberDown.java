@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.ClimberMotor;
 
 public class ClimberDown extends Command {
@@ -31,7 +30,7 @@ public class ClimberDown extends Command {
   @Override
   public void execute() {
 
-    rotationCounter += RobotContainer.climberEncoder.get();
+    // rotationCounter += RobotContainer.climberEncoder.get();
 
     System.out.println("spinning " + timer);
 

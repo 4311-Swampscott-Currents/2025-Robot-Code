@@ -60,6 +60,7 @@ public final class Constants {
   public static final double CLIMBER_MAX_ANGLE_UP = 90;
   public static final double CLIMBER_MIN_ANGLE_DOWN = 0;
 
+  public static final double intakeMinAngle = 0;
   public static final double intakeInitalMaxAngle = 45;
   public static final double intakeFinalMaxAngle = 90;
 }

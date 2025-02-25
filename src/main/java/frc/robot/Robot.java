@@ -36,7 +36,7 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 public class Robot extends LoggedRobot {
   private Command autonomousCommand;
   private RobotContainer robotContainer;
-  public double intakePos;
+  public static double intakePos;
   public double climberPos;
 
   // private ClimberMotor climber;
@@ -116,10 +116,6 @@ public class Robot extends LoggedRobot {
     intakePos = RobotContainer.intakeEncoder.get() * 360;
     intakePos -= Constants.intakeEncoderOffset;
     RobotContainer.intake_m.setArmPos(intakePos);
-
-    // climberPos = RobotContainer.climberEncoder.get() * 360;
-    // RobotContainer.climberEncoder.getFrequency();
-    // RobotContainer.climber_m.setClimberPos(climberPos);
 
     // Switch thread to high priority to improve loop timing
     Threads.setCurrentThreadPriority(true, 99);
