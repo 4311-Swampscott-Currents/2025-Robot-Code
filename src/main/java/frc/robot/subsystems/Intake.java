@@ -3,11 +3,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.spark.SparkBase;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkBaseConfig;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 import com.revrobotics.spark.config.SparkMaxConfig;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
@@ -15,7 +17,7 @@ public class Intake extends SubsystemBase {
   private final SparkMaxConfig intakeWheelsconfig = new SparkMaxConfig();
 
   private final SparkMax intakeWheels =
-      new SparkMax(Constants.intakeWheelsMotorID, MotorType.kBrushed);
+      new SparkMax(Constants.intakeWheelsMotorID, MotorType.kBrushless);
 
   private final TalonFX intakeArm = new TalonFX(Constants.intakeLiftMotorID);
 
@@ -45,19 +47,25 @@ public class Intake extends SubsystemBase {
   }
 
   public void wheelsEnterBrake() {
-    intakeWheelsconfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
+    // intakeWheelsconfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
+    // intakeWheels.configure(
+    //     intakeWheelsconfig,
+    //     SparkBase.ResetMode.kResetSafeParameters,
+    //     SparkBase.PersistMode.kPersistParameters);
+    intakeWheelsconfig.idleMode(IdleMode.kBrake);
     intakeWheels.configure(
-        intakeWheelsconfig,
-        SparkBase.ResetMode.kResetSafeParameters,
-        SparkBase.PersistMode.kPersistParameters);
+        intakeWheelsconfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public void wheelsExitBrake() {
-    intakeWheelsconfig.idleMode(SparkBaseConfig.IdleMode.kCoast);
+    // intakeWheelsconfig.idleMode(SparkBaseConfig.IdleMode.kCoast);
+    // intakeWheels.configure(
+    //     intakeWheelsconfig,
+    //     SparkBase.ResetMode.kResetSafeParameters,
+    //     SparkBase.PersistMode.kPersistParameters);
+    intakeWheelsconfig.idleMode(IdleMode.kCoast);
     intakeWheels.configure(
-        intakeWheelsconfig,
-        SparkBase.ResetMode.kResetSafeParameters,
-        SparkBase.PersistMode.kPersistParameters);
+        intakeWheelsconfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public void lowerIntake() {
@@ -74,6 +82,18 @@ public class Intake extends SubsystemBase {
 
   public void intakeWheelsSpinOut() {
     intakeWheels.set(-Constants.intakeWheelSpeed);
+  }
+
+  public Command intakeWheelsSpinInCommand() {
+    return this.runOnce(() -> intakeWheels.set(-Constants.intakeWheelSpeed));
+  }
+
+  public Command intakeWheelsSpinOutCommand() {
+    return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeed));
+  }
+
+  public double getIntakeWheelsVolt() {
+    return intakeWheels.getAppliedOutput();
   }
 
   // public void turnIntakeArmToPos(double newPos, double currentPos) {
@@ -101,6 +121,7 @@ public class Intake extends SubsystemBase {
     //   slot0Configs.kD = 0.1; // A velocity of 1 rps results in 0.1 V output
 
     //   climber.getConfigurator().apply(slot0Configs);
+
     armEnterBrake();
   }
 }

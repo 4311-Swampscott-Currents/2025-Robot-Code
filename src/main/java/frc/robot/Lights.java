@@ -1,20 +1,17 @@
 package frc.robot;
 
-import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.motorcontrol.Spark;
-
 public class Lights extends RobotContainer {
 
-  Spark blinkin = new Spark(0);
-  XboxController controller = new XboxController(0);
+  // Spark blinkin = new Spark(0);
+  // XboxController controller = new XboxController(0);
 
-  public void robotPeriodic() {
-    if (controller.getAButton()) {
-      blinkin.set(0.87);
-    } else {
-      blinkin.set(-0.99);
-    }
-  }
+  // public void robotPeriodic() {
+  //   if (controller.getAButton()) {
+  //     blinkin.set(0.87);
+  //   } else {
+  //     blinkin.set(-0.99);
+  //   }
+  // }
 }
 
 /*it feels wrong, but the way that they made the blinkin is that the PWM range is the same as a PWM Sparkmax,

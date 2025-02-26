@@ -4,8 +4,6 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.Robot;
-import frc.robot.RobotContainer;
 import frc.robot.subsystems.Intake;
 
 public class IntakeAlgae extends Command {
@@ -25,7 +23,7 @@ public class IntakeAlgae extends Command {
   @Override
   public void initialize() {
 
-    m_intake.armExitBrake();
+    // m_intake.armExitBrake();
     m_intake.intakeWheelsSpinIn();
 
     timer = 0;
@@ -34,14 +32,15 @@ public class IntakeAlgae extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    if (RobotContainer.intakeEncoder.get() > Constants.intakeInitalMaxAngle) {
-      isPartiallyIntake = true;
-    }
-    if (isPartiallyIntake) {
-      m_intake.armEnterBrake();
 
-      m_intake.raiseIntake();
-    }
+    // if (RobotContainer.intakeEncoder.get() > Constants.intakeInitalMaxAngle) {
+    //   isPartiallyIntake = true;
+    // }
+    // if (isPartiallyIntake) {
+    //   m_intake.armEnterBrake();
+
+    //   m_intake.raiseIntake();
+    // }
 
     timer++;
   }
@@ -50,6 +49,7 @@ public class IntakeAlgae extends Command {
   @Override
   public void end(boolean interrupted) {
     m_intake.stopIntakeArm();
+    m_intake.armEnterBrake();
     m_intake.stopWheels();
   }
 
@@ -57,9 +57,13 @@ public class IntakeAlgae extends Command {
   @Override
   public boolean isFinished() {
 
-    if (Robot.intakePos >= Constants.intakeFinalMaxAngle) {
+    if (m_intake.getIntakeWheelsVolt() > Constants.maxIntakeVolt) {
+
       return true;
     }
+    // if (Robot.intakePos >= Constants.intakeFinalMaxAngle) {
+    //   return true;
+    // }
     if (timer > 500) {
       return true;
     }

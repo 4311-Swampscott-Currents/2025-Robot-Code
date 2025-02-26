@@ -14,7 +14,6 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -92,9 +91,13 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
+    intakeEncoder.setInverted(false);
+
     // NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
     // NetworkTable limelightTable = ntInstance.getTable("limelight");
     // public static ClimberMotor climber; = new ClimberMotor();
+
+    climber_m.extiBrake();
 
     switch (Constants.currentMode) {
       case REAL:
@@ -191,20 +194,35 @@ public class RobotContainer {
     // controller.y().onTrue()
 
     // Reset gyro to 0° when LB button is pressed
-    controller
-        .leftBumper()
-        .onTrue(
-            Commands.runOnce(
-                    () ->
-                        drive.setPose(
-                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-                    drive)
-                .ignoringDisable(true));
+    // controller
+    //     .leftBumper()
+    //     .onTrue(
+    //         Commands.runOnce(
+    //                 () ->
+    //                     drive.setPose(
+    //                         new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
+    //                 drive)
+    //          .ignoringDisable(true));
     // runs climb up command when b is pressed
-    controller.b().whileTrue(climber_m.lowerClimber());
-    controller.y().whileTrue(climber_m.raiseClimber());
+    controller.b().onTrue(climber_m.lowerClimber()).onFalse(climber_m.stopClimber());
+    controller.y().onTrue(climber_m.raiseClimber()).onFalse(climber_m.stopClimber());
+
+    controller.leftTrigger().onTrue(intake_m.intakeWheelsSpinInCommand());
+    controller.leftBumper().onTrue(intake_m.intakeWheelsSpinOutCommand());
+
+    // controller.y().onTrue(climber_m.raiseClimber()).onFalse(climber_m.stopClimber());
+
+    // controller.y().whileTrue(climber_m.raiseClimber());
+    // //controller
+    //     .leftTrigger()
+    //     .onTrue(
+    //         new LowerIntakeToPos(intake_m, Constants.intakeMinAngle)
+    //             .andThen(
+    //                 new IntakeAlgae(intake_m)
+    //                     .andThen(new IntakeUpToPos(intake_m, Constants.intakeFinalMaxAngle))));
     // runs climb down command when x is pressed
     // controller.y().onTrue(new IntakeUp(intake_m));
+
   }
   // }
 
