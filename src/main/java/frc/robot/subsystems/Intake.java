@@ -1,6 +1,10 @@
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -23,15 +27,41 @@ public class Intake extends SubsystemBase {
 
   SoftwareLimitSwitchConfigs intakeLimitConfig = new SoftwareLimitSwitchConfigs();
 
+  // in init function
+  TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
+
+  // set slot 0 gains
+  Slot0Configs slot0Configs = talonFXConfigs.Slot0;
+
+  // set Motion Magic settings
+  MotionMagicConfigs motionMagicConfigs = talonFXConfigs.MotionMagic;
+
+  // create a Motion Magic request, voltage output
+  final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
+
   public Intake() {
-    armEnterBrake();
-    wheelsEnterBrake();
+    // armEnterBrake();
+    // wheelsEnterBrake();
 
     intakeLimitConfig.ForwardSoftLimitEnable = true;
     intakeLimitConfig.ForwardSoftLimitThreshold = Constants.intakeFinalMaxAngle;
     intakeLimitConfig.ReverseSoftLimitEnable = true;
     intakeLimitConfig.ReverseSoftLimitThreshold = Constants.intakeMinAngle;
     intakeArm.getConfigurator().apply(intakeLimitConfig);
+
+    slot0Configs.kS = 0.25; // Add 0.25 V output to overcome static friction
+    slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+    slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
+    slot0Configs.kP = 4.8; // A position error of 2.5 rotations results in 12 V output
+    slot0Configs.kI = 0; // no output for integrated error
+    slot0Configs.kD = 0.1; // A velocity error of 1 rps results in 0.1 V output
+
+    motionMagicConfigs.MotionMagicCruiseVelocity = 30; // Target cruise velocity of 30 rps
+    motionMagicConfigs.MotionMagicAcceleration =
+        60; // Target acceleration of 60 rps/s (0.5 seconds)
+    motionMagicConfigs.MotionMagicJerk = 600; // Target jerk of 600 rps/s/s (0.1 seconds)
+
+    intakeArm.getConfigurator().apply(talonFXConfigs);
   }
 
   public void setArmPos(double armEncoderPos) {
@@ -89,7 +119,11 @@ public class Intake extends SubsystemBase {
   }
 
   public Command intakeWheelsSpinOutCommand() {
-    return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeed));
+    return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelOutSpeed));
+  }
+
+  public Command intakeWheelsStopCommand() {
+    return this.runOnce(() -> intakeWheels.stopMotor());
   }
 
   public double getIntakeWheelsVolt() {
@@ -110,6 +144,10 @@ public class Intake extends SubsystemBase {
     intakeArm.stopMotor();
   }
 
+  public Command stopIntakeArmCommand() {
+    return this.runOnce(() -> intakeArm.stopMotor());
+  }
+
   public void stopWheels() {
     intakeWheels.stopMotor();
   }
@@ -123,5 +161,10 @@ public class Intake extends SubsystemBase {
     //   climber.getConfigurator().apply(slot0Configs);
 
     armEnterBrake();
+  }
+
+  public Command turnArmUsingMotionMagic(double position) {
+    // set target position to position rotations
+    return this.runOnce(() -> intakeArm.setControl(m_request.withPosition(position)));
   }
 }

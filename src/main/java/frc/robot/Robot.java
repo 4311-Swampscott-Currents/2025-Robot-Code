@@ -116,6 +116,9 @@ public class Robot extends LoggedRobot {
   public void robotPeriodic() {
     intakePos = RobotContainer.intakeEncoder.get() * 360;
     intakePos -= Constants.intakeEncoderOffset;
+    if (intakePos < 0) {
+      intakePos += 360;
+    }
     RobotContainer.intake_m.setArmPos(intakePos);
 
     // Switch thread to high priority to improve loop timing

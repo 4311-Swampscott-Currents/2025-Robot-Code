@@ -52,9 +52,9 @@ public class ClimberUp extends Command {
     // if (Robot.climberPos > 90) {
     //   return true;
     // }
-    if (timer > 500) {
-      return true;
-    }
+    // if (timer > 500) {
+    //  return true;
+    // }
 
     return false;
   }

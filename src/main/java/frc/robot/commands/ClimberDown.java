@@ -50,9 +50,9 @@ public class ClimberDown extends Command {
     // if (Robot.climberPos < 0) {
     //   return true;
     // }
-    if (timer > 500) {
-      return true;
-    }
+    // if (timer > 500) {
+    // return true;
+    // }
 
     return false;
   }

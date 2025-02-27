@@ -46,7 +46,8 @@ public final class Constants {
 
   // motor speeds
   public static final double climberMotorSpeed = 1;
-  public static final double intakeWheelSpeed = 0.2;
+  public static final double intakeWheelSpeed = 0.4;
+  public static final double intakeWheelOutSpeed = 0.2;
   public static final double intakeMotorSpeed = 0.2;
 
   // gear ratios
@@ -54,15 +55,17 @@ public final class Constants {
 
   // encoder off sets
   public static final double climberEncoderOffset = 0;
-  public static final double intakeEncoderOffset = 0;
-
+  public static final double intakeEncoderOffset = 318;
   // extrema for motor angles
-  public static final double CLIMBER_MAX_ANGLE_UP = 90;
-  public static final double CLIMBER_MIN_ANGLE_DOWN = 0;
+  public static final double CLIMBER_MAX_ANGLE_UP = 270;
+  public static final double CLIMBER_MIN_ANGLE_DOWN = -90;
 
-  public static final double intakeMinAngle = 0;
+  public static final double intakeMinAngle = 5;
   public static final double intakeInitalMaxAngle = 45;
   public static final double intakeFinalMaxAngle = 75;
 
   public static final double maxIntakeVolt = 12;
+
+  // intake PID controls
+  // private static final double kP = 0.1;
 }

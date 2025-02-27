@@ -21,7 +21,7 @@ public class LowerIntakeToPos extends Command {
 
   @Override
   public void initialize() {
-    m_intake.armEnterBrake();
+    // m_intake.armEnterBrake();
     m_intake.lowerIntake();
     timer = 0;
   }

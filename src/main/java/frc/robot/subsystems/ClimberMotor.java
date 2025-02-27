@@ -25,11 +25,11 @@ public class ClimberMotor extends SubsystemBase {
     // apply all configs, 50 ms total timeout
     // climber.getConfigurator().apply(talonFXConfigs, 0.050);
 
-    // climberLimitConfig.ForwardSoftLimitEnable = true;
+    climberLimitConfig.ForwardSoftLimitEnable = false;
     // climberLimitConfig.ForwardSoftLimitThreshold = Constants.CLIMBER_MAX_ANGLE_UP;
-    // climberLimitConfig.ReverseSoftLimitEnable = true;
+    climberLimitConfig.ReverseSoftLimitEnable = false;
     // climberLimitConfig.ReverseSoftLimitThreshold = Constants.CLIMBER_MIN_ANGLE_DOWN;
-    // climber.getConfigurator().apply(climberLimitConfig);
+    climber.getConfigurator().apply(climberLimitConfig);
   }
 
   public void enterBrake() {

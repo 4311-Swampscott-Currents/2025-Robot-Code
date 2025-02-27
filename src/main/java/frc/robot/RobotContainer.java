@@ -97,7 +97,8 @@ public class RobotContainer {
     // NetworkTable limelightTable = ntInstance.getTable("limelight");
     // public static ClimberMotor climber; = new ClimberMotor();
 
-    climber_m.extiBrake();
+    // climber_m.extiBrake();
+    intake_m.armEnterBrake();
 
     switch (Constants.currentMode) {
       case REAL:
@@ -207,11 +208,22 @@ public class RobotContainer {
     controller.b().onTrue(climber_m.lowerClimber()).onFalse(climber_m.stopClimber());
     controller.y().onTrue(climber_m.raiseClimber()).onFalse(climber_m.stopClimber());
 
-    controller.leftTrigger().onTrue(intake_m.intakeWheelsSpinInCommand());
-    controller.leftBumper().onTrue(intake_m.intakeWheelsSpinOutCommand());
-
+    controller
+        .leftTrigger()
+        .onTrue(intake_m.intakeWheelsSpinInCommand())
+        .onFalse(intake_m.intakeWheelsStopCommand());
+    controller
+        .leftBumper()
+        .onTrue(intake_m.intakeWheelsSpinOutCommand())
+        .onFalse(intake_m.intakeWheelsStopCommand());
+    // controller.povLeft().onTrue(intake_m.intakeWheelsStopCommand());
     // controller.y().onTrue(climber_m.raiseClimber()).onFalse(climber_m.stopClimber());
 
+    // controller.rightBumper().onTrue(new IntakeUpToPos(intake_m, Constants.intakeFinalMaxAngle));
+    // controller.rightTrigger().onTrue(new LowerIntakeToPos(intake_m, Constants.intakeMinAngle));
+
+    controller.rightBumper().onTrue(intake_m.turnArmUsingMotionMagic(11));
+    controller.rightTrigger().onTrue(intake_m.stopIntakeArmCommand());
     // controller.y().whileTrue(climber_m.raiseClimber());
     // //controller
     //     .leftTrigger()
