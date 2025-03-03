@@ -18,6 +18,8 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Intake extends SubsystemBase {
+  private final boolean intakeUp;
+
   private final SparkMaxConfig intakeWheelsconfig = new SparkMaxConfig();
 
   private final SparkMax intakeWheels =
@@ -40,7 +42,8 @@ public class Intake extends SubsystemBase {
   final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
 
   public Intake() {
-    // armEnterBrake();
+    armEnterBrake();
+    intakeUp = true;
     // wheelsEnterBrake();
 
     intakeLimitConfig.ForwardSoftLimitEnable = true;
@@ -49,20 +52,30 @@ public class Intake extends SubsystemBase {
     intakeLimitConfig.ReverseSoftLimitThreshold = Constants.intakeMinAngle;
     intakeArm.getConfigurator().apply(intakeLimitConfig);
 
-    slot0Configs.kS = 0.25; // Add 0.25 V output to overcome static friction
-    slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-    slot0Configs.kP = 4.8; // A position error of 2.5 rotations results in 12 V output
-    slot0Configs.kI = 0; // no output for integrated error
-    slot0Configs.kD = 0.1; // A velocity error of 1 rps results in 0.1 V output
+    // slot0Configs.kS = 0.25; // Add 0.25 V output to overcome static friction
+    // slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+    // slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
+    // slot0Configs.kP = 4.8; // A position error of 2.5 rotations results in 12 V output
+    // slot0Configs.kI = 0; // no output for integrated error
+    // slot0Configs.kD = 0.1; // A velocity error of 1 rps results in 0.1 V output
 
-    motionMagicConfigs.MotionMagicCruiseVelocity = 30; // Target cruise velocity of 30 rps
-    motionMagicConfigs.MotionMagicAcceleration =
-        60; // Target acceleration of 60 rps/s (0.5 seconds)
-    motionMagicConfigs.MotionMagicJerk = 600; // Target jerk of 600 rps/s/s (0.1 seconds)
+    // motionMagicConfigs.MotionMagicCruiseVelocity = 30; // Target cruise velocity of 30 rps
+    // motionMagicConfigs.MotionMagicAcceleration =
+    //     60; // Target acceleration of 60 rps/s (0.5 seconds)
+    // motionMagicConfigs.MotionMagicJerk = 600; // Target jerk of 600 rps/s/s (0.1 seconds)
 
-    intakeArm.getConfigurator().apply(talonFXConfigs);
+    // intakeArm.getConfigurator().apply(talonFXConfigs);
   }
+
+  // public boolean isIntakeUp()
+  // {
+  //   return intakeUp;
+  // }
+
+  // public void setIntakeUp(boolean intake)
+  // {
+
+  // }
 
   public void setArmPos(double armEncoderPos) {
     intakeArm.setPosition(armEncoderPos);
@@ -70,6 +83,7 @@ public class Intake extends SubsystemBase {
 
   public void armEnterBrake() {
     intakeArm.setNeutralMode(NeutralModeValue.Brake);
+    // intakeArm.set
   }
 
   public void armExitBrake() {
@@ -82,6 +96,7 @@ public class Intake extends SubsystemBase {
     //     intakeWheelsconfig,
     //     SparkBase.ResetMode.kResetSafeParameters,
     //     SparkBase.PersistMode.kPersistParameters);
+
     intakeWheelsconfig.idleMode(IdleMode.kBrake);
     intakeWheels.configure(
         intakeWheelsconfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -115,17 +130,35 @@ public class Intake extends SubsystemBase {
   }
 
   public Command intakeWheelsSpinInCommand() {
-    return this.runOnce(() -> intakeWheels.set(-Constants.intakeWheelSpeed));
+    return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeed));
+  }
+
+  public Command intakeWheelsSpinInAfterIntakeCommand() {
+    return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeedAfterIntake));
   }
 
   public Command intakeWheelsSpinOutCommand() {
-    return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelOutSpeed));
+    return this.runOnce(() -> intakeWheels.set(-Constants.intakeWheelOutSpeed));
   }
 
   public Command intakeWheelsStopCommand() {
-    return this.runOnce(() -> intakeWheels.stopMotor());
+    return this.runOnce(() -> intakeWheels.set(0));
+    // return this.runOnce(() -> intakeWheels.stopMotor());
+  }
+  // Crocker additions
+  public Command intakeUp() {
+
+    return this.runOnce(() -> intakeArm.set(Constants.intakeMotorSpeed));
   }
 
+  public Command intakeDown() {
+    return this.runOnce(() -> intakeArm.set(-Constants.intakeMotorSpeed));
+  }
+
+  public Command intakeStop() {
+    return this.runOnce(() -> intakeArm.stopMotor());
+  }
+  // end of Crocker
   public double getIntakeWheelsVolt() {
     return intakeWheels.getAppliedOutput();
   }

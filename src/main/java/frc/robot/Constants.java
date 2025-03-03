@@ -46,9 +46,10 @@ public final class Constants {
 
   // motor speeds
   public static final double climberMotorSpeed = 1;
-  public static final double intakeWheelSpeed = 0.4;
-  public static final double intakeWheelOutSpeed = 0.2;
-  public static final double intakeMotorSpeed = 0.2;
+  public static final double intakeWheelSpeed = 0.2;
+  public static final double intakeWheelOutSpeed = 0.4;
+  public static final double intakeMotorSpeed = 0.25;
+  public static final double intakeWheelSpeedAfterIntake = 0.1;
 
   // gear ratios
   public static final double climberGearRatio = 125;
@@ -62,7 +63,7 @@ public final class Constants {
 
   public static final double intakeMinAngle = 5;
   public static final double intakeInitalMaxAngle = 45;
-  public static final double intakeFinalMaxAngle = 75;
+  public static final double intakeFinalMaxAngle = 100;
 
   public static final double maxIntakeVolt = 12;
 

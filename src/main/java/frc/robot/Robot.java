@@ -107,10 +107,12 @@ public class Robot extends LoggedRobot {
     robotContainer = new RobotContainer();
   }
   // Testing out differnt options...
-  // @Override
-  // public void robotInit() {
-  //   climber = new ClimberMotor();
-  // }
+  @Override
+  public void robotInit() {
+    RobotContainer.climber_m.enterBrake();
+    RobotContainer.intake_m.armEnterBrake();
+    RobotContainer.intake_m.wheelsEnterBrake();
+  }
   /** This function is called periodically during all modes. */
   @Override
   public void robotPeriodic() {

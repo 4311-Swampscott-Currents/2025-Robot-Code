@@ -44,11 +44,13 @@ public class IntakeUpToPos extends Command {
   @Override
   public boolean isFinished() {
 
-    if (Robot.intakePos > finalPosition) {}
-
-    if (timer > 500) {
+    if (Robot.intakePos > finalPosition) {
       return true;
     }
+
+    // if (timer > 1000) {
+    //   return true;
+    // }
 
     return false;
   }

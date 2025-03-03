@@ -46,9 +46,9 @@ public class LowerIntakeToPos extends Command {
     if (Robot.intakePos < finalPosition) {
       return true;
     }
-    if (timer > 500) {
-      return true;
-    }
+    // if (timer > 1000) {
+    //   return true;
+    // }
 
     return false;
   }

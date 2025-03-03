@@ -14,6 +14,8 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -25,6 +27,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.IntakeUpToPos;
+import frc.robot.commands.LowerIntakeToPos;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberMotor;
 import frc.robot.subsystems.Intake;
@@ -98,7 +102,7 @@ public class RobotContainer {
     // public static ClimberMotor climber; = new ClimberMotor();
 
     // climber_m.extiBrake();
-    intake_m.armEnterBrake();
+    // intake_m.armEnterBrake();
 
     switch (Constants.currentMode) {
       case REAL:
@@ -194,36 +198,60 @@ public class RobotContainer {
     // Aiden Work for Visial servo go here
     // controller.y().onTrue()
 
-    // Reset gyro to 0° when LB button is pressed
-    // controller
-    //     .leftBumper()
-    //     .onTrue(
-    //         Commands.runOnce(
-    //                 () ->
-    //                     drive.setPose(
-    //                         new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
-    //                 drive)
-    //          .ignoringDisable(true));
+    //Reset gyro to 0° when LB button is pressed
+    controller
+        .rightBumper()
+        .onTrue(
+            Commands.runOnce(
+                    () ->
+                        drive.setPose(
+                            new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
+                    drive)
+             .ignoringDisable(true));
     // runs climb up command when b is pressed
     controller.b().onTrue(climber_m.lowerClimber()).onFalse(climber_m.stopClimber());
     controller.y().onTrue(climber_m.raiseClimber()).onFalse(climber_m.stopClimber());
 
+    // controller
+    //     .leftTrigger()
+    //     .onTrue(intake_m.intakeWheelsSpinInCommand())
+    //     .onFalse(intake_m.intakeWheelsStopCommand());
+    // controller
+    //     .leftBumper()
+    //     .onTrue(intake_m.intakeWheelsSpinOutCommand())
+    //     .onFalse(intake_m.intakeWheelsStopCommand());
+
+    // controller
+    //     .leftTrigger()
+    //     .onTrue(new LowerIntakeToPos(intake_m, 25))
+    //     .onFalse(new IntakeUpToPos(intake_m, 90));
+
     controller
         .leftTrigger()
-        .onTrue(intake_m.intakeWheelsSpinInCommand())
-        .onFalse(intake_m.intakeWheelsStopCommand());
+        .onTrue(intake_m.intakeWheelsSpinInCommand().andThen(new LowerIntakeToPos(intake_m, 25)))
+        .onFalse(
+            intake_m
+                .intakeWheelsSpinInAfterIntakeCommand()
+                .andThen(new IntakeUpToPos(intake_m, 75)));
     controller
         .leftBumper()
-        .onTrue(intake_m.intakeWheelsSpinOutCommand())
-        .onFalse(intake_m.intakeWheelsStopCommand());
+        .onTrue(new LowerIntakeToPos(intake_m, 60).andThen(intake_m.intakeWheelsSpinOutCommand()))
+        .onFalse(intake_m.intakeWheelsStopCommand().andThen(new IntakeUpToPos(intake_m, 75)));
+    // Crocker stuff
+    controller.start().onTrue(intake_m.intakeUp()).onFalse(intake_m.intakeStop());
+
+    controller.rightStick().onTrue(intake_m.intakeDown()).onFalse(intake_m.intakeStop());
+
+    // end of Crocker Stuff
+
     // controller.povLeft().onTrue(intake_m.intakeWheelsStopCommand());
     // controller.y().onTrue(climber_m.raiseClimber()).onFalse(climber_m.stopClimber());
 
     // controller.rightBumper().onTrue(new IntakeUpToPos(intake_m, Constants.intakeFinalMaxAngle));
     // controller.rightTrigger().onTrue(new LowerIntakeToPos(intake_m, Constants.intakeMinAngle));
 
-    controller.rightBumper().onTrue(intake_m.turnArmUsingMotionMagic(11));
-    controller.rightTrigger().onTrue(intake_m.stopIntakeArmCommand());
+    // controller.rightBumper().onTrue(intake_m.turnArmUsingMotionMagic(11));
+    // controller.rightTrigger().onTrue(intake_m.stopIntakeArmCommand());
     // controller.y().whileTrue(climber_m.raiseClimber());
     // //controller
     //     .leftTrigger()
