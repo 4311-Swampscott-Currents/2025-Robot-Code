@@ -142,7 +142,10 @@ public class RobotContainer {
 
     // ClimbUp climbCommand = new ClimbUp();
 
-    NamedCommands.registerCommand("Shoot", intake_m.intakeWheelsSpinInCommand());
+    NamedCommands.registerCommand("Shoot", intake_m.intakeWheelsSpinInAfterIntakeCommand());
+    NamedCommands.registerCommand("Stop Shoot", intake_m.intakeWheelsStopCommand());
+    NamedCommands.registerCommand("Lower Intake", new LowerIntakeToPos(intake_m, 60));
+    NamedCommands.registerCommand("Raise Intake", new IntakeUpToPos(intake_m, 75));
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -257,6 +260,7 @@ public class RobotContainer {
     //     .rightTrigger()
     //     .onTrue(intake_m.turnArmUsingMotionMagic(15))
     //     .onFalse(intake_m.stopIntakeArmCommand());
+
     // controller.rightTrigger().onTrue(intake_m.stopIntakeArmCommand());
     // controller.y().whileTrue(climber_m.raiseClimber());
     // //controller

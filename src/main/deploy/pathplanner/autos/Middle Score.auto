@@ -13,7 +13,31 @@
         {
           "type": "named",
           "data": {
+            "name": "Lower Intake"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
             "name": "Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Raise Intake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop Shoot"
           }
         }
       ]
