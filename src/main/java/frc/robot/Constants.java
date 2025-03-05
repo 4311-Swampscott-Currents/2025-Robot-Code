@@ -39,6 +39,7 @@ public final class Constants {
   public static final int climberMotorID = 15;
   public static final int intakeWheelsMotorID = 16;
   public static final int intakeLiftMotorID = 14;
+  public static final int intakeLiftMotor2ID = 17;
 
   // encoder ids
   // public static final int climberEncoderID = 0;
@@ -46,17 +47,17 @@ public final class Constants {
 
   // motor speeds
   public static final double climberMotorSpeed = 1;
-  public static final double intakeWheelSpeed = 0.2;
-  public static final double intakeWheelOutSpeed = 0.4;
+  public static final double intakeWheelSpeed = 0.4;
+  public static final double intakeWheelOutSpeed = 0.5;
   public static final double intakeMotorSpeed = 0.25;
-  public static final double intakeWheelSpeedAfterIntake = 0.1;
+  public static final double intakeWheelSpeedAfterIntake = 0.2;
 
   // gear ratios
   public static final double climberGearRatio = 125;
 
   // encoder off sets
   public static final double climberEncoderOffset = 0;
-  public static final double intakeEncoderOffset = 318;
+  public static final double intakeEncoderOffset = 312;
   // extrema for motor angles
   public static final double CLIMBER_MAX_ANGLE_UP = 270;
   public static final double CLIMBER_MIN_ANGLE_DOWN = -90;

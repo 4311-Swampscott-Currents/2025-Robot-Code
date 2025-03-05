@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
 
-public class LowerIntakeToPos extends Command {
+public class LowerIntakeCrocker extends Command {
   // Code runs, but motor does not turn...
   int timer;
   public static double finalPosition;
@@ -13,7 +13,7 @@ public class LowerIntakeToPos extends Command {
   // public static ClimberMotor climber;
 
   // Called when the command is initially scheduled.
-  public LowerIntakeToPos(Intake intake, double finalAngle) {
+  public LowerIntakeCrocker(Intake intake, double finalAngle) {
     m_intake = intake;
     finalPosition = finalAngle;
     addRequirements(m_intake);
@@ -43,7 +43,7 @@ public class LowerIntakeToPos extends Command {
   @Override
   public boolean isFinished() {
 
-    if (Robot.intakePos + 10 < finalPosition) {
+    if (Robot.intakePos < finalPosition) {
       return true;
     }
     // if (timer > 1000) {

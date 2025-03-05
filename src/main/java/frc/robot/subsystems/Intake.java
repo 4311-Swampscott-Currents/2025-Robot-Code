@@ -4,6 +4,7 @@ import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -26,6 +27,8 @@ public class Intake extends SubsystemBase {
       new SparkMax(Constants.intakeWheelsMotorID, MotorType.kBrushless);
 
   private final TalonFX intakeArm = new TalonFX(Constants.intakeLiftMotorID);
+  private final TalonFX intakeArm_M2 = new TalonFX(Constants.intakeLiftMotor2ID);
+  // private final Follower intakeArm_M2 = new Follower(Constants.intakeLiftMotorID, true);
 
   SoftwareLimitSwitchConfigs intakeLimitConfig = new SoftwareLimitSwitchConfigs();
 
@@ -42,6 +45,8 @@ public class Intake extends SubsystemBase {
   final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
 
   public Intake() {
+    intakeArm_M2.setControl(new Follower(Constants.intakeLiftMotorID, true));
+
     armEnterBrake();
     intakeUp = true;
     // wheelsEnterBrake();
@@ -51,20 +56,21 @@ public class Intake extends SubsystemBase {
     intakeLimitConfig.ReverseSoftLimitEnable = true;
     intakeLimitConfig.ReverseSoftLimitThreshold = Constants.intakeMinAngle;
     intakeArm.getConfigurator().apply(intakeLimitConfig);
+    intakeArm_M2.getConfigurator().apply(intakeLimitConfig);
 
-    // slot0Configs.kS = 0.25; // Add 0.25 V output to overcome static friction
-    // slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    // slot0Configs.kA = 0.01; // An acceleration of 1 rps/s requires 0.01 V output
-    // slot0Configs.kP = 4.8; // A position error of 2.5 rotations results in 12 V output
-    // slot0Configs.kI = 0; // no output for integrated error
-    // slot0Configs.kD = 0.1; // A velocity error of 1 rps results in 0.1 V output
+    slot0Configs.kS = 0; // Add 0 V output to overcome static friction
+    slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
+    slot0Configs.kA = 0; // An acceleration of 1 rps/s requires 0. V output
+    slot0Configs.kP = 1.5; // A position error of 1 rotations results in 12 V output
+    slot0Configs.kI = 0; // no output for integrated error
+    slot0Configs.kD = 0; // A velocity error
 
-    // motionMagicConfigs.MotionMagicCruiseVelocity = 30; // Target cruise velocity of 30 rps
-    // motionMagicConfigs.MotionMagicAcceleration =
-    //     60; // Target acceleration of 60 rps/s (0.5 seconds)
-    // motionMagicConfigs.MotionMagicJerk = 600; // Target jerk of 600 rps/s/s (0.1 seconds)
+    motionMagicConfigs.MotionMagicCruiseVelocity = 60; // Target cruise velocity of 30 rps
+    motionMagicConfigs.MotionMagicAcceleration =
+        850; // Target acceleration of 60 rps/s (0.5 seconds)
+    motionMagicConfigs.MotionMagicJerk = 10000; // Target jerk of 600 rps/s/s (0.1 seconds)
 
-    // intakeArm.getConfigurator().apply(talonFXConfigs);
+    intakeArm.getConfigurator().apply(talonFXConfigs);
   }
 
   // public boolean isIntakeUp()
@@ -79,35 +85,27 @@ public class Intake extends SubsystemBase {
 
   public void setArmPos(double armEncoderPos) {
     intakeArm.setPosition(armEncoderPos);
+    intakeArm_M2.setPosition(armEncoderPos);
   }
 
   public void armEnterBrake() {
     intakeArm.setNeutralMode(NeutralModeValue.Brake);
+    intakeArm_M2.setNeutralMode(NeutralModeValue.Brake);
     // intakeArm.set
   }
 
   public void armExitBrake() {
     intakeArm.setNeutralMode(NeutralModeValue.Coast);
+    intakeArm_M2.setNeutralMode(NeutralModeValue.Coast);
   }
 
   public void wheelsEnterBrake() {
-    // intakeWheelsconfig.idleMode(SparkBaseConfig.IdleMode.kBrake);
-    // intakeWheels.configure(
-    //     intakeWheelsconfig,
-    //     SparkBase.ResetMode.kResetSafeParameters,
-    //     SparkBase.PersistMode.kPersistParameters);
-
     intakeWheelsconfig.idleMode(IdleMode.kBrake);
     intakeWheels.configure(
         intakeWheelsconfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
   public void wheelsExitBrake() {
-    // intakeWheelsconfig.idleMode(SparkBaseConfig.IdleMode.kCoast);
-    // intakeWheels.configure(
-    //     intakeWheelsconfig,
-    //     SparkBase.ResetMode.kResetSafeParameters,
-    //     SparkBase.PersistMode.kPersistParameters);
     intakeWheelsconfig.idleMode(IdleMode.kCoast);
     intakeWheels.configure(
         intakeWheelsconfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);

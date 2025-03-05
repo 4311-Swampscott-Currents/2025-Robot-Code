@@ -14,7 +14,7 @@
 package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
-
+import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.NetworkTable;
@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.IntakeUpToPos;
+import frc.robot.commands.LowerIntakeCrocker;
 import frc.robot.commands.LowerIntakeToPos;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberMotor;
@@ -141,6 +142,8 @@ public class RobotContainer {
 
     // ClimbUp climbCommand = new ClimbUp();
 
+    NamedCommands.registerCommand("Shoot", intake_m.intakeWheelsSpinInCommand());
+
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
 
@@ -198,7 +201,7 @@ public class RobotContainer {
     // Aiden Work for Visial servo go here
     // controller.y().onTrue()
 
-    //Reset gyro to 0° when LB button is pressed
+    // Reset gyro to 0° when LB button is pressed
     controller
         .rightBumper()
         .onTrue(
@@ -207,7 +210,7 @@ public class RobotContainer {
                         drive.setPose(
                             new Pose2d(drive.getPose().getTranslation(), new Rotation2d())),
                     drive)
-             .ignoringDisable(true));
+                .ignoringDisable(true));
     // runs climb up command when b is pressed
     controller.b().onTrue(climber_m.lowerClimber()).onFalse(climber_m.stopClimber());
     controller.y().onTrue(climber_m.raiseClimber()).onFalse(climber_m.stopClimber());
@@ -228,19 +231,19 @@ public class RobotContainer {
 
     controller
         .leftTrigger()
-        .onTrue(intake_m.intakeWheelsSpinInCommand().andThen(new LowerIntakeToPos(intake_m, 25)))
+        .onTrue(intake_m.intakeWheelsSpinInCommand().andThen(new LowerIntakeToPos(intake_m, 40)))
         .onFalse(
             intake_m
                 .intakeWheelsSpinInAfterIntakeCommand()
                 .andThen(new IntakeUpToPos(intake_m, 75)));
     controller
         .leftBumper()
-        .onTrue(new LowerIntakeToPos(intake_m, 60).andThen(intake_m.intakeWheelsSpinOutCommand()))
+        .onTrue(new LowerIntakeCrocker(intake_m, 65).andThen(intake_m.intakeWheelsSpinOutCommand()))
         .onFalse(intake_m.intakeWheelsStopCommand().andThen(new IntakeUpToPos(intake_m, 75)));
     // Crocker stuff
-    controller.start().onTrue(intake_m.intakeUp()).onFalse(intake_m.intakeStop());
+    // controller.start().onTrue(intake_m.intakeUp()).onFalse(intake_m.intakeStop());
 
-    controller.rightStick().onTrue(intake_m.intakeDown()).onFalse(intake_m.intakeStop());
+    // controller.rightStick().onTrue(intake_m.intakeDown()).onFalse(intake_m.intakeStop());
 
     // end of Crocker Stuff
 
@@ -250,7 +253,10 @@ public class RobotContainer {
     // controller.rightBumper().onTrue(new IntakeUpToPos(intake_m, Constants.intakeFinalMaxAngle));
     // controller.rightTrigger().onTrue(new LowerIntakeToPos(intake_m, Constants.intakeMinAngle));
 
-    // controller.rightBumper().onTrue(intake_m.turnArmUsingMotionMagic(11));
+    // controller
+    //     .rightTrigger()
+    //     .onTrue(intake_m.turnArmUsingMotionMagic(15))
+    //     .onFalse(intake_m.stopIntakeArmCommand());
     // controller.rightTrigger().onTrue(intake_m.stopIntakeArmCommand());
     // controller.y().whileTrue(climber_m.raiseClimber());
     // //controller
