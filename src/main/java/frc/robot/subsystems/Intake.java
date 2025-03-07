@@ -126,7 +126,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void raiseIntake() {
-    intakeArm.set(Constants.intakeMotorSpeed);
+    intakeArm.set(Constants.intakeMotorSpeed * 0.75);
   }
 
   public void intakeWheelsSpinIn() {

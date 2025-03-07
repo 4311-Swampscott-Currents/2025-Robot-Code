@@ -57,14 +57,14 @@ public final class Constants {
 
   // encoder off sets
   public static final double climberEncoderOffset = 0;
-  public static final double intakeEncoderOffset = 318;
+  public static final double intakeEncoderOffset = 311;
   // extrema for motor angles
   public static final double CLIMBER_MAX_ANGLE_UP = 270;
   public static final double CLIMBER_MIN_ANGLE_DOWN = -90;
 
   public static final double intakeMinAngle = 5;
   public static final double intakeInitalMaxAngle = 45;
-  public static final double intakeFinalMaxAngle = 90;
+  public static final double intakeFinalMaxAngle = 85;
 
   public static final double maxIntakeVolt = 12;
 
