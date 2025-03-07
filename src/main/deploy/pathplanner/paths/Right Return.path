@@ -1,0 +1,54 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 5.363291396103896,
+        "y": 2.5719967532467534
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.286383928571428,
+        "y": 2.507893668831168
+      },
+      "isLocked": false,
+      "linkedName": "EF Trough"
+    },
+    {
+      "anchor": {
+        "x": 7.165300324675325,
+        "y": 0.8412134740259739
+      },
+      "prevControl": {
+        "x": 7.037094155844155,
+        "y": 2.279971590909091
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 4.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 176.4785466230778
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 119.99999999999999
+  },
+  "useDefaultConstraints": true
+}

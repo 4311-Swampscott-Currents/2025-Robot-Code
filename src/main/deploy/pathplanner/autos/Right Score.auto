@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Middle Score"
+            "pathName": "Right Score"
           }
         },
         {
@@ -43,7 +43,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Middle Return"
+            "pathName": "Right Return"
           }
         }
       ]
