@@ -30,8 +30,6 @@ public class Intake extends SubsystemBase {
   private final TalonFX intakeArm_M2 = new TalonFX(Constants.intakeLiftMotor2ID);
   // private final Follower intakeArm_M2 = new Follower(Constants.intakeLiftMotorID, true);
 
-  SoftwareLimitSwitchConfigs intakeLimitConfig = new SoftwareLimitSwitchConfigs();
-
   // in init function
   TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
 
@@ -40,6 +38,10 @@ public class Intake extends SubsystemBase {
 
   // set Motion Magic settings
   MotionMagicConfigs motionMagicConfigs = talonFXConfigs.MotionMagic;
+
+  // software limits
+  SoftwareLimitSwitchConfigs intakeLimitConfig_L = talonFXConfigs.SoftwareLimitSwitch;
+  SoftwareLimitSwitchConfigs intakeLimitConfig_R = new SoftwareLimitSwitchConfigs();
 
   // create a Motion Magic request, voltage output
   final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
@@ -51,12 +53,15 @@ public class Intake extends SubsystemBase {
     intakeUp = true;
     // wheelsEnterBrake();
 
-    intakeLimitConfig.ForwardSoftLimitEnable = true;
-    intakeLimitConfig.ForwardSoftLimitThreshold = Constants.intakeFinalMaxAngle;
-    intakeLimitConfig.ReverseSoftLimitEnable = true;
-    intakeLimitConfig.ReverseSoftLimitThreshold = Constants.intakeMinAngle;
-    intakeArm.getConfigurator().apply(intakeLimitConfig);
-    intakeArm_M2.getConfigurator().apply(intakeLimitConfig);
+    intakeLimitConfig_L.ForwardSoftLimitEnable = true;
+    intakeLimitConfig_L.ForwardSoftLimitThreshold = Constants.intakeFinalMaxAngle;
+    intakeLimitConfig_L.ReverseSoftLimitEnable = true;
+    intakeLimitConfig_L.ReverseSoftLimitThreshold = Constants.intakeMinAngle;
+
+    intakeLimitConfig_R.ForwardSoftLimitEnable = true;
+    intakeLimitConfig_R.ForwardSoftLimitThreshold = Constants.intakeFinalMaxAngle;
+    intakeLimitConfig_R.ReverseSoftLimitEnable = true;
+    intakeLimitConfig_R.ReverseSoftLimitThreshold = Constants.intakeMinAngle;
 
     slot0Configs.kS = 0; // Add 0 V output to overcome static friction
     slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
@@ -71,6 +76,11 @@ public class Intake extends SubsystemBase {
     motionMagicConfigs.MotionMagicJerk = 10000; // Target jerk of 600 rps/s/s (0.1 seconds)
 
     intakeArm.getConfigurator().apply(talonFXConfigs);
+
+    // intakeArm.getConfigurator().apply(intakeLimitConfig_L );
+    intakeArm_M2.getConfigurator().apply(intakeLimitConfig_R);
+
+    // intakeArm.getConfigurator().
   }
 
   // public boolean isIntakeUp()

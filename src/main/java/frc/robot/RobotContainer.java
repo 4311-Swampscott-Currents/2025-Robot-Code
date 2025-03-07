@@ -244,9 +244,9 @@ public class RobotContainer {
         .onTrue(new LowerIntakeCrocker(intake_m, 65).andThen(intake_m.intakeWheelsSpinOutCommand()))
         .onFalse(intake_m.intakeWheelsStopCommand().andThen(new IntakeUpToPos(intake_m, 75)));
     // Crocker stuff
-    // controller.start().onTrue(intake_m.intakeUp()).onFalse(intake_m.intakeStop());
+    controller.start().onTrue(intake_m.intakeUp()).onFalse(intake_m.intakeStop());
 
-    // controller.rightStick().onTrue(intake_m.intakeDown()).onFalse(intake_m.intakeStop());
+    controller.rightStick().onTrue(intake_m.intakeDown()).onFalse(intake_m.intakeStop());
 
     // end of Crocker Stuff
 
