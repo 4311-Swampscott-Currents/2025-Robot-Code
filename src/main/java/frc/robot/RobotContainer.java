@@ -146,6 +146,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Stop Shoot", intake_m.intakeWheelsStopCommand());
     NamedCommands.registerCommand("Lower Intake", new LowerIntakeToPos(intake_m, 60));
     NamedCommands.registerCommand("Raise Intake", new IntakeUpToPos(intake_m, 75));
+    // NamedCommands.registerCommand("null", getAutonomousCommand());
 
     // Set up auto routines
     autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());

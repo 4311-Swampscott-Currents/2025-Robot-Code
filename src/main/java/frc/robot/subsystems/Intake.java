@@ -8,6 +8,7 @@ import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -25,6 +26,7 @@ public class Intake extends SubsystemBase {
 
   private final SparkMax intakeWheels =
       new SparkMax(Constants.intakeWheelsMotorID, MotorType.kBrushless);
+  private final RelativeEncoder intakeWheelsEncoder;
 
   private final TalonFX intakeArm = new TalonFX(Constants.intakeLiftMotorID);
   private final TalonFX intakeArm_M2 = new TalonFX(Constants.intakeLiftMotor2ID);
@@ -47,6 +49,9 @@ public class Intake extends SubsystemBase {
   final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
 
   public Intake() {
+
+    intakeWheelsEncoder = intakeWheels.getEncoder();
+
     intakeArm_M2.setControl(new Follower(Constants.intakeLiftMotorID, true));
 
     armEnterBrake();
@@ -169,6 +174,14 @@ public class Intake extends SubsystemBase {
   // end of Crocker
   public double getIntakeWheelsVolt() {
     return intakeWheels.getAppliedOutput();
+  }
+
+  public double getIntakeWheelVelocity() {
+    return intakeWheelsEncoder.getVelocity();
+  }
+
+  public boolean areWheelsStop() {
+    return Math.abs(getIntakeWheelVelocity()) < 0.1;
   }
 
   // public void turnIntakeArmToPos(double newPos, double currentPos) {

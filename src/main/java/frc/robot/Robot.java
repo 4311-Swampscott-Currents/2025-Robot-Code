@@ -145,6 +145,9 @@ public class Robot extends LoggedRobot {
     SmartDashboard.putNumber("Climber Position", RobotContainer.climber_m.getClimberPosition());
     SmartDashboard.putNumber(
         "Climber Rotor Position", RobotContainer.climber_m.getClimberRotorPosition());
+    SmartDashboard.putNumber(
+        "Intake Wheel Speed", RobotContainer.intake_m.getIntakeWheelVelocity());
+    SmartDashboard.putBoolean("Intake Wheels Stop?", RobotContainer.intake_m.areWheelsStop());
   }
 
   /** This function is called once when the robot is disabled. */
