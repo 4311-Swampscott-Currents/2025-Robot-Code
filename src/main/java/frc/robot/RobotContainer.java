@@ -56,6 +56,7 @@ public class RobotContainer {
 
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
+
   // private final Camera
   // (Command)PathPlannerAuto forward;
 
@@ -142,9 +143,9 @@ public class RobotContainer {
 
     // ClimbUp climbCommand = new ClimbUp();
 
-    NamedCommands.registerCommand("Shoot", intake_m.intakeWheelsSpinInAfterIntakeCommand());
+    NamedCommands.registerCommand("Shoot", intake_m.intakeWheelsShootOutCoral());
     NamedCommands.registerCommand("Stop Shoot", intake_m.intakeWheelsStopCommand());
-    NamedCommands.registerCommand("Lower Intake", new LowerIntakeToPos(intake_m, 60));
+    NamedCommands.registerCommand("Lower Intake", new LowerIntakeToPos(intake_m, 50));
     NamedCommands.registerCommand("Raise Intake", new IntakeUpToPos(intake_m, 75));
     // NamedCommands.registerCommand("null", getAutonomousCommand());
 
@@ -235,7 +236,7 @@ public class RobotContainer {
 
     controller
         .leftTrigger()
-        .onTrue(intake_m.intakeWheelsSpinInCommand().andThen(new LowerIntakeToPos(intake_m, 40)))
+        .onTrue(intake_m.intakeWheelsSpinInCommand().andThen(new LowerIntakeToPos(intake_m, 55)))
         .onFalse(
             intake_m
                 .intakeWheelsSpinInAfterIntakeCommand()

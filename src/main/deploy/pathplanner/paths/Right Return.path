@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.363291396103896,
-        "y": 2.5719967532467534
+        "x": 5.0,
+        "y": 3.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.286383928571428,
-        "y": 2.507893668831168
+        "x": 6.923092532467532,
+        "y": 3.4858969155844144
       },
       "isLocked": false,
       "linkedName": "EF Trough"
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 176.4785466230778
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": -67.0
   },
   "useDefaultConstraints": true
 }

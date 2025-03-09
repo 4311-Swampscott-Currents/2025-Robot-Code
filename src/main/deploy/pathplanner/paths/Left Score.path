@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.639561598017146,
-        "y": 5.770463721681576
+        "x": 5.597163059488356,
+        "y": 5.726380675521137
       },
       "isLocked": false,
       "linkedName": "Left Wall Start"
@@ -20,8 +20,8 @@
         "y": 5.4780032467532465
       },
       "prevControl": {
-        "x": 7.904045557877418,
-        "y": 7.849777825613229
+        "x": 7.892825121198423,
+        "y": 7.853173848211521
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -119.99999999999999
+    "rotation": 59.99999999999999
   },
   "reversed": false,
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 180.0
+    "rotation": 0.0
   },
   "useDefaultConstraints": true
 }
