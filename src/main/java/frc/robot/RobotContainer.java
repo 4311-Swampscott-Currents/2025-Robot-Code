@@ -236,14 +236,19 @@ public class RobotContainer {
 
     controller
         .leftTrigger()
-        .onTrue(intake_m.intakeWheelsSpinInCommand().andThen(new LowerIntakeToPos(intake_m, 55)))
+        .onTrue(
+            intake_m
+                .intakeWheelsSpinCommand(Constants.intakeMotorSpeed, true)
+                .andThen(new LowerIntakeToPos(intake_m, 50)))
         .onFalse(
             intake_m
-                .intakeWheelsSpinInAfterIntakeCommand()
+                .intakeWheelsSpinCommand(Constants.intakeWheelSpeedAfterIntake, true)
                 .andThen(new IntakeUpToPos(intake_m, 80)));
     controller
         .leftBumper()
-        .onTrue(new LowerIntakeCrocker(intake_m, 65).andThen(intake_m.intakeWheelsSpinOutCommand()))
+        .onTrue(
+            new LowerIntakeCrocker(intake_m, 65)
+                .andThen(intake_m.intakeWheelsSpinCommand(Constants.intakeWheelOutSpeed, false)))
         .onFalse(intake_m.intakeWheelsStopCommand().andThen(new IntakeUpToPos(intake_m, 80)));
     // Crocker stuff
     controller.povUp().onTrue(intake_m.intakeUp()).onFalse(intake_m.intakeStop());

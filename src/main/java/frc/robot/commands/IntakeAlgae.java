@@ -24,7 +24,7 @@ public class IntakeAlgae extends Command {
   public void initialize() {
 
     // m_intake.armExitBrake();
-    m_intake.intakeWheelsSpinIn();
+    // m_intake.intakeWheelsSpinIn();
 
     timer = 0;
   }

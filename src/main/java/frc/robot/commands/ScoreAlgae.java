@@ -20,7 +20,7 @@ public class ScoreAlgae extends Command {
   @Override
   public void initialize() {
 
-    m_intake.intakeWheelsSpinOut();
+    // m_intake.intakeWheelsSpinOut();
 
     timer = 0;
   }

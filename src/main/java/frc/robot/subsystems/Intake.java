@@ -7,6 +7,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.RelativeEncoder;
 import com.revrobotics.spark.SparkBase.PersistMode;
@@ -74,8 +75,9 @@ public class Intake extends SubsystemBase {
     slot0Configs.kP = 1.5; // A position error of 1 rotations results in 12 V output
     slot0Configs.kI = 0; // no output for integrated error
     slot0Configs.kD = 0; // A velocity error
+    slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
 
-    motionMagicConfigs.MotionMagicCruiseVelocity = 60; // Target cruise velocity of 30 rps
+    motionMagicConfigs.MotionMagicCruiseVelocity = 85; // Target cruise velocity of 30 rps
     motionMagicConfigs.MotionMagicAcceleration =
         850; // Target acceleration of 60 rps/s (0.5 seconds)
     motionMagicConfigs.MotionMagicJerk = 10000; // Target jerk of 600 rps/s/s (0.1 seconds)
@@ -84,6 +86,8 @@ public class Intake extends SubsystemBase {
 
     // intakeArm.getConfigurator().apply(intakeLimitConfig_L );
     intakeArm_M2.getConfigurator().apply(intakeLimitConfig_R);
+
+    m_request.Slot = 0;
 
     // intakeArm.getConfigurator().
   }
@@ -134,29 +138,43 @@ public class Intake extends SubsystemBase {
     intakeArm.set(Constants.intakeMotorSpeed * 0.75);
   }
 
-  public void intakeWheelsSpinIn() {
-    intakeWheels.set(Constants.intakeWheelSpeed);
+  public void intakeWheelsSpin(double m_speed, boolean spinIn) {
+    if (!spinIn) {
+      m_speed *= -1;
+    }
+    intakeWheels.set(m_speed);
   }
 
-  public void intakeWheelsSpinOut() {
-    intakeWheels.set(-Constants.intakeWheelSpeed);
+  public Command intakeWheelsSpinCommand(final double m_speed, boolean spinIn) {
+    if (!spinIn) {
+      return this.runOnce(() -> intakeWheels.set((-m_speed)));
+    }
+    return this.runOnce(() -> intakeWheels.set((m_speed)));
   }
 
-  public Command intakeWheelsSpinInCommand() {
-    return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeed));
-  }
+  // public void intakeWheelsSpinIn() {
+  //   intakeWheels.set(Constants.intakeWheelSpeed);
+  // }
 
-  public Command intakeWheelsSpinInAfterIntakeCommand() {
-    return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeedAfterIntake));
-  }
+  // public void intakeWheelsSpinOut() {
+  //   intakeWheels.set(-Constants.intakeWheelSpeed);
+  // }
+
+  // public Command intakeWheelsSpinInCommand() {
+  //   return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeed));
+  // }
+
+  // public Command intakeWheelsSpinInAfterIntakeCommand() {
+  //   return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeedAfterIntake));
+  // }
 
   public Command intakeWheelsShootOutCoral() {
     return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeedAfterIntake * 1.25));
   }
 
-  public Command intakeWheelsSpinOutCommand() {
-    return this.runOnce(() -> intakeWheels.set(-Constants.intakeWheelOutSpeed));
-  }
+  // public Command intakeWheelsSpinOutCommand() {
+  //   return this.runOnce(() -> intakeWheels.set(-Constants.intakeWheelOutSpeed));
+  // }
 
   public Command intakeWheelsStopCommand() {
     return this.runOnce(() -> intakeWheels.set(0));
