@@ -31,6 +31,8 @@ public class Intake extends SubsystemBase {
 
   private final TalonFX intakeArm = new TalonFX(Constants.intakeLiftMotorID);
   private final TalonFX intakeArm_M2 = new TalonFX(Constants.intakeLiftMotor2ID);
+
+  // private final TalonFX deAlgae_m = new TalonFX(Constants.deAlgae_mID);
   // private final Follower intakeArm_M2 = new Follower(Constants.intakeLiftMotorID, true);
 
   // in init function
@@ -107,6 +109,14 @@ public class Intake extends SubsystemBase {
     intakeArm_M2.setPosition(armEncoderPos);
   }
 
+  // public void deAlgae_mEnterBrake() {
+  //   deAlgae_m.setNeutralMode(NeutralModeValue.Brake);
+  // }
+
+  // public void deAlgae_mExitBrake() {
+  //   deAlgae_m.setNeutralMode(NeutralModeValue.Coast);
+  // }
+
   public void armEnterBrake() {
     intakeArm.setNeutralMode(NeutralModeValue.Brake);
     intakeArm_M2.setNeutralMode(NeutralModeValue.Brake);
@@ -151,22 +161,6 @@ public class Intake extends SubsystemBase {
     }
     return this.runOnce(() -> intakeWheels.set((m_speed)));
   }
-
-  // public void intakeWheelsSpinIn() {
-  //   intakeWheels.set(Constants.intakeWheelSpeed);
-  // }
-
-  // public void intakeWheelsSpinOut() {
-  //   intakeWheels.set(-Constants.intakeWheelSpeed);
-  // }
-
-  // public Command intakeWheelsSpinInCommand() {
-  //   return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeed));
-  // }
-
-  // public Command intakeWheelsSpinInAfterIntakeCommand() {
-  //   return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeedAfterIntake));
-  // }
 
   public Command intakeWheelsShootOutCoral() {
     return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeedAfterIntake * 1.25));
@@ -228,19 +222,37 @@ public class Intake extends SubsystemBase {
     intakeWheels.stopMotor();
   }
 
-  public void configureIntake() {
-    //   var slot0Configs = new Slot0Configs();
-    //   slot0Configs.kP = 2.4; // An error of 1 rotation results in 2.4 V output
-    //   slot0Configs.kI = 0; // no output for integrated error
-    //   slot0Configs.kD = 0.1; // A velocity of 1 rps results in 0.1 V output
+  // public Command stopDeAlgae_mCommand() {
+  //   return this.runOnce(() -> deAlgae_m.stopMotor());
+  // }
 
-    //   climber.getConfigurator().apply(slot0Configs);
+  // public Command deAlgae_mUp() {
 
-    armEnterBrake();
-  }
+  //   return this.runOnce(() -> deAlgae_m.set(Constants.deAlgae_mSpeed));
+  // }
+
+  // public Command deAlgae_mDown() {
+  //   return this.runOnce(() -> intakeArm.set(-Constants.deAlgae_mSpeed));
+  // }
 
   public Command turnArmUsingMotionMagic(double position) {
     // set target position to position rotations
     return this.runOnce(() -> intakeArm.setControl(m_request.withPosition(position)));
   }
 }
+
+// public void intakeWheelsSpinIn() {
+  //   intakeWheels.set(Constants.intakeWheelSpeed);
+  // }
+
+  // public void intakeWheelsSpinOut() {
+  //   intakeWheels.set(-Constants.intakeWheelSpeed);
+  // }
+
+  // public Command intakeWheelsSpinInCommand() {
+  //   return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeed));
+  // }
+
+  // public Command intakeWheelsSpinInAfterIntakeCommand() {
+  //   return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeedAfterIntake));
+  // }

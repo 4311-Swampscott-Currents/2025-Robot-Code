@@ -15,8 +15,14 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.Waypoint;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -39,6 +45,7 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import java.util.List;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -254,6 +261,37 @@ public class RobotContainer {
     controller.povUp().onTrue(intake_m.intakeUp()).onFalse(intake_m.intakeStop());
 
     controller.povDown().onTrue(intake_m.intakeDown()).onFalse(intake_m.intakeStop());
+
+    // Path Planner Path which moves robot 2 meters to the +x direction
+    controller
+        .rightTrigger()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  Pose2d currentPose = drive.getPose();
+
+                  // The rotation component in these poses represents the direction of travel
+                  Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
+                  Pose2d endPos =
+                      new Pose2d(
+                          currentPose.getTranslation().plus(new Translation2d(2.0, 0.0)),
+                          new Rotation2d());
+
+                  List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPos, endPos);
+                  PathPlannerPath path =
+                      new PathPlannerPath(
+                          waypoints,
+                          new PathConstraints(
+                              4.0, 4.0, Units.degreesToRadians(360), Units.degreesToRadians(540)),
+                          null, // Ideal starting state can be null for on-the-fly paths
+                          new GoalEndState(0.0, currentPose.getRotation()));
+
+                  // Prevent this path from being flipped on the red alliance, since the given
+                  // positions are already correct
+                  path.preventFlipping = true;
+
+                  AutoBuilder.followPath(path).schedule();
+                }));
 
     // end of Crocker Stuff
 

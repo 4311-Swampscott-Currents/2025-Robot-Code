@@ -40,6 +40,7 @@ public final class Constants {
   public static final int intakeWheelsMotorID = 16;
   public static final int intakeLiftMotorID = 14;
   public static final int intakeLiftMotor2ID = 17;
+  public static final int deAlgae_mID = 18;
 
   // encoder ids
   // public static final int climberEncoderID = 0;
@@ -51,6 +52,7 @@ public final class Constants {
   public static final double intakeWheelOutSpeed = 0.5;
   public static final double intakeMotorSpeed = 0.25;
   public static final double intakeWheelSpeedAfterIntake = 0.2;
+  public static final double deAlgae_mSpeed = 0.2;
 
   // gear ratios
   public static final double climberGearRatio = 125;
