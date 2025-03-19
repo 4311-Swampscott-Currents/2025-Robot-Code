@@ -282,7 +282,7 @@ public class RobotContainer {
                       new PathPlannerPath(
                           waypoints,
                           new PathConstraints(
-                              4.0, 4.0, Units.degreesToRadians(360), Units.degreesToRadians(540)),
+                              4.0, 3.0, Units.degreesToRadians(360), Units.degreesToRadians(540)),
                           null, // Ideal starting state can be null for on-the-fly paths
                           new GoalEndState(0.0, currentPose.getRotation()));
 
