@@ -72,6 +72,9 @@ public class RobotContainer {
   public static final ClimberMotor climber_m = new ClimberMotor();
   public static final Intake intake_m = new Intake();
 
+  // Aiden Tat Stuff:
+  private static Translation2d goaltrans = new Translation2d(0, 0);
+
   // static final ClimberUp climberLift = new ClimberUp();
   // static final ClimberDown climberlower = new ClimberDown();
   // static final IntakeUp liftIntake = new IntakeUp();
@@ -274,7 +277,7 @@ public class RobotContainer {
                   Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
                   Pose2d endPos =
                       new Pose2d(
-                          currentPose.getTranslation().plus(new Translation2d(2.0, 0.0)),
+                          /*currentPose.getTranslation().plus(new Translation2d(2.0, 0.0))*/ goaltrans,
                           new Rotation2d());
 
                   List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPos, endPos);
