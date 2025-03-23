@@ -30,6 +30,7 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+// import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
@@ -60,7 +61,7 @@ public class RobotContainer {
 
   // Controller
   private final CommandXboxController controller = new CommandXboxController(0);
-
+  // private final CommandJoystick simjoystick = new CommandJoystick(0);
   // Dashboard inputs
   private final LoggedDashboardChooser<Command> autoChooser;
 
@@ -73,7 +74,7 @@ public class RobotContainer {
   public static final Intake intake_m = new Intake();
 
   // Aiden Tat Stuff:
-  private static Translation2d goaltrans = new Translation2d(0, 0);
+  private static Translation2d goaltrans = new Translation2d(2, 1);
 
   // static final ClimberUp climberLift = new ClimberUp();
   // static final ClimberDown climberlower = new ClimberDown();
@@ -266,7 +267,8 @@ public class RobotContainer {
     controller.povDown().onTrue(intake_m.intakeDown()).onFalse(intake_m.intakeStop());
 
     // Path Planner Path which moves robot 2 meters to the +x direction
-    controller
+    controller /*simjoystick
+               .button(1)*/
         .rightTrigger()
         .onTrue(
             Commands.runOnce(

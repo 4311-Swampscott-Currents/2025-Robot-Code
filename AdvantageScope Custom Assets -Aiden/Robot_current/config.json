@@ -1,0 +1,120 @@
+{
+    "name": "current",
+    "disableSimplification": false,
+    "rotations": [
+    {
+      "axis": "z",
+      "degrees": 180
+    }
+  ],
+  "position": [
+    0,
+    0,
+    0.045
+  ],
+  "cameras": [
+    {
+      "name": "Front Camera",
+      "rotations": [
+        {
+          "axis": "y",
+          "degrees": 20
+        }
+      ],
+      "position": [
+        0.2,
+        0,
+        0.8
+      ],
+      "resolution": [
+        960,
+        720
+      ],
+      "fov": 90
+    },
+    {
+      "name": "Back Camera",
+      "rotations": [
+        {
+          "axis": "y",
+          "degrees": 20
+        },
+        {
+          "axis": "z",
+          "degrees": 180
+        }
+      ],
+      "position": [
+        -0.2,
+        0,
+        0.8
+      ],
+      "resolution": [
+        960,
+        720
+      ],
+      "fov": 90
+    },
+    {
+      "name": "Left Camera",
+      "rotations": [
+        {
+          "axis": "y",
+          "degrees": 20
+        },
+        {
+          "axis": "z",
+          "degrees": 90
+        }
+      ],
+      "position": [
+        0,
+        0.2,
+        0.8
+      ],
+      "resolution": [
+        960,
+        720
+      ],
+      "fov": 90
+    },
+    {
+      "name": "Right Camera",
+      "rotations": [
+        {
+          "axis": "y",
+          "degrees": 20
+        },
+        {
+          "axis": "z",
+          "degrees": -90
+        }
+      ],
+      "position": [
+        0,
+        -0.2,
+        0.8
+      ],
+      "resolution": [
+        960,
+        720
+      ],
+      "fov": 90
+    },
+    {
+      "name": "ShellCam™",
+      "rotations": [],
+      "position": [
+        0.05,
+        0,
+        0.45
+      ],
+      "resolution": [
+        1920,
+        1080
+      ],
+      "fov": 90
+    }
+  ],
+  "components": []
+  }
