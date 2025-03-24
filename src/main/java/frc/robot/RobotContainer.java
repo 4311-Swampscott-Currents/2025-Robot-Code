@@ -74,7 +74,7 @@ public class RobotContainer {
   public static final Intake intake_m = new Intake();
 
   // Aiden Tat Stuff:
-  private static Translation2d goaltrans = new Translation2d(2, 1);
+  private static Translation2d goaltrans = new Translation2d(6, 0.63);
 
   // static final ClimberUp climberLift = new ClimberUp();
   // static final ClimberDown climberlower = new ClimberDown();
@@ -202,17 +202,17 @@ public class RobotContainer {
             () -> -controller.getRightX()));
 
     // Lock to 0° when A button is held
-    controller
-        .a()
-        .whileTrue(
-            DriveCommands.joystickDriveAtAngle(
-                drive,
-                () -> -controller.getLeftY(),
-                () -> -controller.getLeftX(),
-                () -> new Rotation2d()));
+    /*controller
+    .a()
+    .whileTrue(
+        DriveCommands.joystickDriveAtAngle(
+            drive,
+            () -> -controller.getLeftY(),
+            () -> -controller.getLeftX(),
+            () -> new Rotation2d()));*/
 
     // Switch to X pattern when X button is pressed
-    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Aiden Work for Visial servo go here
     // controller.y().onTrue()
@@ -266,7 +266,6 @@ public class RobotContainer {
 
     controller.povDown().onTrue(intake_m.intakeDown()).onFalse(intake_m.intakeStop());
 
-    // Path Planner Path which moves robot 2 meters to the +x direction
     controller /*simjoystick
                .button(1)*/
         .rightTrigger()
@@ -289,7 +288,7 @@ public class RobotContainer {
                           new PathConstraints(
                               4.0, 3.0, Units.degreesToRadians(360), Units.degreesToRadians(540)),
                           null, // Ideal starting state can be null for on-the-fly paths
-                          new GoalEndState(0.0, currentPose.getRotation()));
+                          new GoalEndState(0.0, new Rotation2d(Math.PI / 2)));
 
                   // Prevent this path from being flipped on the red alliance, since the given
                   // positions are already correct
@@ -297,6 +296,9 @@ public class RobotContainer {
 
                   AutoBuilder.followPath(path).schedule();
                 }));
+
+    // de algaefier
+    // controller.x().onTrue()
 
     // end of Crocker Stuff
 

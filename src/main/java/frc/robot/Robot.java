@@ -112,7 +112,7 @@ public class Robot extends LoggedRobot {
     RobotContainer.climber_m.enterBrake();
     RobotContainer.intake_m.armEnterBrake();
     RobotContainer.intake_m.wheelsEnterBrake();
-    // RobotContainer.intake_m.deAlgae_mEnterBrake();
+    RobotContainer.intake_m.deAlgae_mEnterBrake();
   }
   /** This function is called periodically during all modes. */
   @Override
