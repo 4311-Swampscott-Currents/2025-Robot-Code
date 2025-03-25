@@ -212,7 +212,7 @@ public class RobotContainer {
             () -> new Rotation2d()));*/
 
     // Switch to X pattern when X button is pressed
-    // controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
+    controller.x().onTrue(Commands.runOnce(drive::stopWithX, drive));
 
     // Aiden Work for Visial servo go here
     // controller.y().onTrue()
@@ -230,6 +230,10 @@ public class RobotContainer {
     // runs climb up command when b is pressed
     controller.b().onTrue(climber_m.lowerClimber()).onFalse(climber_m.stopClimber());
     controller.y().onTrue(climber_m.raiseClimber()).onFalse(climber_m.stopClimber());
+
+    // controller.a().onTrue(new DeAlgae(intake_m, 150));
+    // controller.a().onTrue(intake_m.deAlgae_mDownCommand()).onFalse(intake_m.deAlgae_mUpCommand());
+    // controller.a().onTrue(intake_m.deAlgae_mUpCommand()).onFalse(intake_m.stopDeAlgae_mCommand());
 
     // controller
     //     .leftTrigger()
@@ -250,7 +254,7 @@ public class RobotContainer {
         .onTrue(
             intake_m
                 .intakeWheelsSpinCommand(Constants.intakeMotorSpeed, true)
-                .andThen(new LowerIntakeToPos(intake_m, 50)))
+                .andThen(new LowerIntakeToPos(intake_m, 55)))
         .onFalse(
             intake_m
                 .intakeWheelsSpinCommand(Constants.intakeWheelSpeedAfterIntake, true)
@@ -258,7 +262,7 @@ public class RobotContainer {
     controller
         .leftBumper()
         .onTrue(
-            new LowerIntakeCrocker(intake_m, 65)
+            new LowerIntakeCrocker(intake_m, 70)
                 .andThen(intake_m.intakeWheelsSpinCommand(Constants.intakeWheelOutSpeed, false)))
         .onFalse(intake_m.intakeWheelsStopCommand().andThen(new IntakeUpToPos(intake_m, 80)));
     // Crocker stuff
@@ -266,36 +270,36 @@ public class RobotContainer {
 
     controller.povDown().onTrue(intake_m.intakeDown()).onFalse(intake_m.intakeStop());
 
-    controller /*simjoystick
-               .button(1)*/
-        .rightTrigger()
-        .onTrue(
-            Commands.runOnce(
-                () -> {
-                  Pose2d currentPose = drive.getPose();
+    // controller /*simjoystick
+    //            .button(1)*/
+    //     .rightTrigger()
+    //     .onTrue(
+    //         Commands.runOnce(
+    //             () -> {
+    //               Pose2d currentPose = drive.getPose();
 
-                  // The rotation component in these poses represents the direction of travel
-                  Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
-                  Pose2d endPos =
-                      new Pose2d(
-                          /*currentPose.getTranslation().plus(new Translation2d(2.0, 0.0))*/ goaltrans,
-                          new Rotation2d());
+    //               // The rotation component in these poses represents the direction of travel
+    //               Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
+    //               Pose2d endPos =
+    //                   new Pose2d(
+    //                       /*currentPose.getTranslation().plus(new Translation2d(2.0, 0.0))*/
+    //                       goaltrans, new Rotation2d());
 
-                  List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPos, endPos);
-                  PathPlannerPath path =
-                      new PathPlannerPath(
-                          waypoints,
-                          new PathConstraints(
-                              4.0, 3.0, Units.degreesToRadians(360), Units.degreesToRadians(540)),
-                          null, // Ideal starting state can be null for on-the-fly paths
-                          new GoalEndState(0.0, new Rotation2d(Math.PI / 2)));
+    //               List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPos, endPos);
+    //               PathPlannerPath path =
+    //                   new PathPlannerPath(
+    //                       waypoints,
+    //                       new PathConstraints(
+    //                           4.0, 3.0, Units.degreesToRadians(360), Units.degreesToRadians(540)),
+    //                       null, // Ideal starting state can be null for on-the-fly paths
+    //                       new GoalEndState(0.0, new Rotation2d(Math.PI / 2)));
 
-                  // Prevent this path from being flipped on the red alliance, since the given
-                  // positions are already correct
-                  path.preventFlipping = true;
+    //               // Prevent this path from being flipped on the red alliance, since the given
+    //               // positions are already correct
+    //               path.preventFlipping = true;
 
-                  AutoBuilder.followPath(path).schedule();
-                }));
+    //               AutoBuilder.followPath(path).schedule();
+    //             }));
 
     // de algaefier
     // controller.x().onTrue()
@@ -310,7 +314,7 @@ public class RobotContainer {
 
     // controller
     //     .rightTrigger()
-    //     .onTrue(intake_m.turnArmUsingMotionMagic(15))
+    //     .onTrue(intake_m.turnArmUsingMotionMagic(20))
     //     .onFalse(intake_m.stopIntakeArmCommand());
 
     // controller.rightTrigger().onTrue(intake_m.stopIntakeArmCommand());

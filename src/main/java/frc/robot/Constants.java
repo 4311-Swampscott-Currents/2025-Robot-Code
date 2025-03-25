@@ -49,10 +49,10 @@ public final class Constants {
   // motor speeds
   public static final double climberMotorSpeed = 1;
   public static final double intakeWheelSpeed = 0.4;
-  public static final double intakeWheelOutSpeed = 0.3;
+  public static final double intakeWheelOutSpeed = 0.2;
   public static final double intakeMotorSpeed = 0.25;
   public static final double intakeWheelSpeedAfterIntake = 0.2;
-  public static final double deAlgae_mSpeed = 0.2;
+  public static final double deAlgae_mSpeed = 0.7;
 
   // gear ratios
   public static final double climberGearRatio = 125;
@@ -69,6 +69,9 @@ public final class Constants {
   public static final double intakeFinalMaxAngle = 85;
 
   public static final double maxIntakeVolt = 12;
+
+  public static final double maxDeAlgae = 150;
+  public static final double minDeAlgae = 0;
 
   // intake PID controls
   // private static final double kP = 0.1;

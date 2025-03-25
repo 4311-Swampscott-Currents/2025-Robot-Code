@@ -16,6 +16,7 @@ package frc.robot;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.DriveMotorArrangement;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
+import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -112,7 +113,8 @@ public class Robot extends LoggedRobot {
     RobotContainer.climber_m.enterBrake();
     RobotContainer.intake_m.armEnterBrake();
     RobotContainer.intake_m.wheelsEnterBrake();
-    RobotContainer.intake_m.deAlgae_mEnterBrake();
+    // RobotContainer.intake_m.deAlgae_mEnterBrake();
+    CameraServer.startAutomaticCapture();
   }
   /** This function is called periodically during all modes. */
   @Override
@@ -149,6 +151,8 @@ public class Robot extends LoggedRobot {
     SmartDashboard.putNumber(
         "Intake Wheel Speed", RobotContainer.intake_m.getIntakeWheelVelocity());
     SmartDashboard.putBoolean("Intake Wheels Stop?", RobotContainer.intake_m.areWheelsStop());
+    // SmartDashboard.putNumber("De-Algae Position", RobotContainer.intake_m.getDeAlgaePos());
+    SmartDashboard.putBoolean("De-Algae Up?", RobotContainer.intake_m.getDeAlgaeUp());
   }
 
   /** This function is called once when the robot is disabled. */

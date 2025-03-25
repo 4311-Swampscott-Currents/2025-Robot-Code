@@ -6,6 +6,7 @@ import com.ctre.phoenix6.configs.SoftwareLimitSwitchConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.Follower;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.GravityTypeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -33,7 +34,7 @@ public class Intake extends SubsystemBase {
   private final TalonFX intakeArm = new TalonFX(Constants.intakeLiftMotorID);
   private final TalonFX intakeArm_M2 = new TalonFX(Constants.intakeLiftMotor2ID);
 
-  private final TalonFX deAlgae_m = new TalonFX(Constants.deAlgae_mID);
+  // private final TalonFX deAlgae_m = new TalonFX(Constants.deAlgae_mID);
   // private final Follower intakeArm_M2 = new Follower(Constants.intakeLiftMotorID, true);
 
   // in init function
@@ -51,10 +52,12 @@ public class Intake extends SubsystemBase {
 
   // create a Motion Magic request, voltage output
   final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
+  VoltageOut turnSpeedUp = new VoltageOut(Constants.intakeMotorSpeed * 16);
+  VoltageOut turnSpeedDown = new VoltageOut(Constants.intakeMotorSpeed * -16);
 
   public Intake() {
 
-    deAlgae_m.setPosition(0);
+    // deAlgae_m.setPosition(0);
 
     intakeWheelsEncoder = intakeWheels.getEncoder();
 
@@ -77,16 +80,18 @@ public class Intake extends SubsystemBase {
 
     slot0Configs.kS = 0; // Add 0 V output to overcome static friction
     slot0Configs.kV = 0.12; // A velocity target of 1 rps results in 0.12 V output
-    slot0Configs.kA = 0; // An acceleration of 1 rps/s requires 0. V output
-    slot0Configs.kP = 1.5; // A position error of 1 rotations results in 12 V output
+    slot0Configs.kA = 0; // An acceleration of   rps/s requires 0. V output
+    slot0Configs.kP = 0.2; // A position error of   rotations results in 12 V output
     slot0Configs.kI = 0; // no output for integrated error
     slot0Configs.kD = 0; // A velocity error
+    slot0Configs.kG = 1;
+
     slot0Configs.GravityType = GravityTypeValue.Arm_Cosine;
 
-    motionMagicConfigs.MotionMagicCruiseVelocity = 85; // Target cruise velocity of 30 rps
+    motionMagicConfigs.MotionMagicCruiseVelocity = 85; // Target cruise velocity of   rps
     motionMagicConfigs.MotionMagicAcceleration =
-        850; // Target acceleration of 60 rps/s (0.5 seconds)
-    motionMagicConfigs.MotionMagicJerk = 10000; // Target jerk of 600 rps/s/s (0.1 seconds)
+        850; // Target acceleration of   rps/s (0.5 seconds)
+    motionMagicConfigs.MotionMagicJerk = 10000; // Target jerk of   rps/s/s (0.1 seconds)
 
     intakeArm.getConfigurator().apply(talonFXConfigs);
 
@@ -94,6 +99,8 @@ public class Intake extends SubsystemBase {
     intakeArm_M2.getConfigurator().apply(intakeLimitConfig_R);
 
     m_request.Slot = 0;
+    // m_request.LimitForwardMotion = true;
+    // m_request.LimitReverseMotion = true;
 
     // intakeArm.getConfigurator().
   }
@@ -118,13 +125,13 @@ public class Intake extends SubsystemBase {
     intakeArm_M2.setPosition(armEncoderPos);
   }
 
-  public void deAlgae_mEnterBrake() {
-    deAlgae_m.setNeutralMode(NeutralModeValue.Brake);
-  }
+  // public void deAlgae_mEnterBrake() {
+  //   deAlgae_m.setNeutralMode(NeutralModeValue.Brake);
+  // }
 
-  public void deAlgae_mExitBrake() {
-    deAlgae_m.setNeutralMode(NeutralModeValue.Coast);
-  }
+  // public void deAlgae_mExitBrake() {
+  //   deAlgae_m.setNeutralMode(NeutralModeValue.Coast);
+  // }
 
   public void armEnterBrake() {
     intakeArm.setNeutralMode(NeutralModeValue.Brake);
@@ -150,11 +157,13 @@ public class Intake extends SubsystemBase {
   }
 
   public void lowerIntake() {
-    intakeArm.set(-Constants.intakeMotorSpeed);
+    intakeArm.setControl(turnSpeedDown);
+    // intakeArm.set(-Constants.intakeMotorSpeed);
   }
 
   public void raiseIntake() {
-    intakeArm.set(Constants.intakeMotorSpeed * 0.75);
+    intakeArm.setControl(turnSpeedUp);
+    // intakeArm.set(Constants.intakeMotorSpeed * 0.75);
   }
 
   public void intakeWheelsSpin(double m_speed, boolean spinIn) {
@@ -185,16 +194,18 @@ public class Intake extends SubsystemBase {
   }
   // Crocker additions
   public Command intakeUp() {
-
-    return this.runOnce(() -> intakeArm.set(Constants.intakeMotorSpeed));
+    return this.runOnce(() -> intakeArm.setControl(turnSpeedUp));
+    // return this.runOnce(() -> intakeArm.set(Constants.intakeMotorSpeed));
   }
 
   public Command intakeDown() {
-    return this.runOnce(() -> intakeArm.set(-Constants.intakeMotorSpeed));
+    return this.runOnce(() -> intakeArm.setControl(turnSpeedDown));
+    // return this.runOnce(() -> intakeArm.set(-Constants.intakeMotorSpeed));
   }
 
   public Command intakeStop() {
-    return this.runOnce(() -> intakeArm.stopMotor());
+    return this.runOnce(() -> intakeArm.setControl(new VoltageOut(0)));
+    // return this.runOnce(() -> intakeArm.stopMotor());
   }
   // end of Crocker
   public double getIntakeWheelsVolt() {
@@ -220,7 +231,8 @@ public class Intake extends SubsystemBase {
   // }
 
   public void stopIntakeArm() {
-    intakeArm.stopMotor();
+    intakeArm.setControl(new VoltageOut(0));
+    // intakeArm.stopMotor();
   }
 
   public Command stopIntakeArmCommand() {
@@ -231,31 +243,31 @@ public class Intake extends SubsystemBase {
     intakeWheels.stopMotor();
   }
 
-  public Command stopDeAlgae_mCommand() {
-    return this.runOnce(() -> deAlgae_m.stopMotor());
-  }
+  // public Command stopDeAlgae_mCommand() {
+  //   return this.runOnce(() -> deAlgae_m.stopMotor());
+  // }
 
-  public Command deAlgae_mUpCommand() {
+  // public Command deAlgae_mUpCommand() {
 
-    return this.runOnce(() -> deAlgae_m.set(Constants.deAlgae_mSpeed));
-  }
+  //   return this.runOnce(() -> deAlgae_m.set(-Constants.deAlgae_mSpeed));
+  // }
 
-  public Command deAlgae_mDownCommand() {
-    return this.runOnce(() -> intakeArm.set(-Constants.deAlgae_mSpeed));
-  }
+  // public Command deAlgae_mDownCommand() {
+  //   return this.runOnce(() -> deAlgae_m.set(Constants.deAlgae_mSpeed));
+  // }
 
-  public void stopDeAlgae_m() {
-    deAlgae_m.stopMotor();
-  }
+  // public void stopDeAlgae_m() {
+  //   deAlgae_m.stopMotor();
+  // }
 
-  public void deAlgae_mUp() {
+  // public void deAlgae_mUp() {
 
-    deAlgae_m.set(Constants.deAlgae_mSpeed);
-  }
+  //   deAlgae_m.set(Constants.deAlgae_mSpeed);
+  // }
 
-  public void deAlgae_mDown() {
-    intakeArm.set(-Constants.deAlgae_mSpeed);
-  }
+  // public void deAlgae_mDown() {
+  //   deAlgae_m.set(-Constants.deAlgae_mSpeed);
+  // }
 
   public void setDeAlgaeUp(boolean up) {
     deAlgae_mUp = up;
@@ -265,10 +277,9 @@ public class Intake extends SubsystemBase {
     return deAlgae_mUp;
   }
 
-  public double getDeAlgaePos()
-  {
-    return deAlgae_m.getPosition().getValueAsDouble();
-  }
+  // public double getDeAlgaePos() {
+  //   return deAlgae_m.getPosition().getValueAsDouble();
+  // }
 }
 
 // public void intakeWheelsSpinIn() {
