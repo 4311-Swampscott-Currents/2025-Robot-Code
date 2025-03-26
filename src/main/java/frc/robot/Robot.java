@@ -17,6 +17,8 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.DriveMotorArrangement;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -40,6 +42,7 @@ public class Robot extends LoggedRobot {
   private RobotContainer robotContainer;
   public static double intakePos;
   public double climberPos;
+  NetworkTable limelightTable;
 
   // private ClimberMotor climber;
 
@@ -114,7 +117,10 @@ public class Robot extends LoggedRobot {
     RobotContainer.intake_m.armEnterBrake();
     RobotContainer.intake_m.wheelsEnterBrake();
     // RobotContainer.intake_m.deAlgae_mEnterBrake();
-    CameraServer.startAutomaticCapture();
+    limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
+    CameraServer.startAutomaticCapture(0);
+    String limelightURL = "http://10.43.11.11:5800/stream.mjpg";
+    SmartDashboard.putString("Limelight Stream", limelightURL);
   }
   /** This function is called periodically during all modes. */
   @Override

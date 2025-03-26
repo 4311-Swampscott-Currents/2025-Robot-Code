@@ -15,14 +15,9 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.path.GoalEndState;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.path.Waypoint;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -46,7 +41,6 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
-import java.util.List;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -253,8 +247,8 @@ public class RobotContainer {
         .leftTrigger()
         .onTrue(
             intake_m
-                .intakeWheelsSpinCommand(Constants.intakeMotorSpeed, true)
-                .andThen(new LowerIntakeToPos(intake_m, 55)))
+                .intakeWheelsSpinCommand(Constants.intakeWheelSpeed, true)
+                .andThen(new LowerIntakeToPos(intake_m, 50)))
         .onFalse(
             intake_m
                 .intakeWheelsSpinCommand(Constants.intakeWheelSpeedAfterIntake, true)
@@ -285,12 +279,14 @@ public class RobotContainer {
     //                       /*currentPose.getTranslation().plus(new Translation2d(2.0, 0.0))*/
     //                       goaltrans, new Rotation2d());
 
-    //               List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPos, endPos);
+    //               List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPos,
+    // endPos);
     //               PathPlannerPath path =
     //                   new PathPlannerPath(
     //                       waypoints,
     //                       new PathConstraints(
-    //                           4.0, 3.0, Units.degreesToRadians(360), Units.degreesToRadians(540)),
+    //                           4.0, 3.0, Units.degreesToRadians(360),
+    // Units.degreesToRadians(540)),
     //                       null, // Ideal starting state can be null for on-the-fly paths
     //                       new GoalEndState(0.0, new Rotation2d(Math.PI / 2)));
 
