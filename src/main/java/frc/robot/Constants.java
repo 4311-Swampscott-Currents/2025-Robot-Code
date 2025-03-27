@@ -52,6 +52,8 @@ public final class Constants {
   public static final double intakeWheelOutSpeed = 0.2;
   public static final double intakeMotorSpeed = 0.25;
   public static final double intakeWheelSpeedAfterIntake = 0.2;
+  public static final double intakeWheelSpeedCoral = 0.175;
+
   public static final double deAlgae_mSpeed = 0.7;
 
   // gear ratios

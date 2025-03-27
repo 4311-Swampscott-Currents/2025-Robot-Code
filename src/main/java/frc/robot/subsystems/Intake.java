@@ -181,7 +181,7 @@ public class Intake extends SubsystemBase {
   }
 
   public Command intakeWheelsShootOutCoral() {
-    return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeedAfterIntake * 1.25));
+    return this.runOnce(() -> intakeWheels.set(Constants.intakeWheelSpeedCoral * 1.25));
   }
 
   // public Command intakeWheelsSpinOutCommand() {

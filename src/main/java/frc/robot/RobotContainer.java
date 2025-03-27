@@ -15,9 +15,14 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+import com.pathplanner.lib.path.Waypoint;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -41,6 +46,7 @@ import frc.robot.subsystems.drive.GyroIOPigeon2;
 import frc.robot.subsystems.drive.ModuleIO;
 import frc.robot.subsystems.drive.ModuleIOSim;
 import frc.robot.subsystems.drive.ModuleIOTalonFX;
+import java.util.List;
 import org.littletonrobotics.junction.networktables.LoggedDashboardChooser;
 
 /**
@@ -150,7 +156,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("Shoot", intake_m.intakeWheelsShootOutCoral());
     NamedCommands.registerCommand("Stop Shoot", intake_m.intakeWheelsStopCommand());
-    NamedCommands.registerCommand("Lower Intake", new LowerIntakeToPos(intake_m, 50));
+    NamedCommands.registerCommand("Lower Intake", new LowerIntakeCrocker(intake_m, 75));
     NamedCommands.registerCommand("Raise Intake", new IntakeUpToPos(intake_m, 75));
     // NamedCommands.registerCommand("null", getAutonomousCommand());
 
@@ -264,39 +270,43 @@ public class RobotContainer {
 
     controller.povDown().onTrue(intake_m.intakeDown()).onFalse(intake_m.intakeStop());
 
-    // controller /*simjoystick
-    //            .button(1)*/
-    //     .rightTrigger()
-    //     .onTrue(
-    //         Commands.runOnce(
-    //             () -> {
-    //               Pose2d currentPose = drive.getPose();
+    controller /*simjoystick
+               .button(1)*/
+        .rightTrigger()
+        .onTrue(
+            Commands.runOnce(
+                () -> {
+                  Pose2d currentPose = drive.getPose();
 
-    //               // The rotation component in these poses represents the direction of travel
-    //               Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
-    //               Pose2d endPos =
-    //                   new Pose2d(
-    //                       /*currentPose.getTranslation().plus(new Translation2d(2.0, 0.0))*/
-    //                       goaltrans, new Rotation2d());
+                  // The rotation component in these poses represents the direction of travel
+                  Pose2d startPos = new Pose2d(currentPose.getTranslation(), new Rotation2d());
+                  Pose2d endPos =
+                      new Pose2d(
+                          /*currentPose.getTranslation().plus(new Translation2d(2.0, 0.0))*/
+                          goaltrans, new Rotation2d());
 
-    //               List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPos,
-    // endPos);
-    //               PathPlannerPath path =
-    //                   new PathPlannerPath(
-    //                       waypoints,
-    //                       new PathConstraints(
-    //                           4.0, 3.0, Units.degreesToRadians(360),
-    // Units.degreesToRadians(540)),
-    //                       null, // Ideal starting state can be null for on-the-fly paths
-    //                       new GoalEndState(0.0, new Rotation2d(Math.PI / 2)));
+                  List<Waypoint> waypoints = PathPlannerPath.waypointsFromPoses(startPos, endPos);
+                  PathPlannerPath path =
+                      new PathPlannerPath(
+                          waypoints,
+                          new PathConstraints(
+                              4.0, 3.0, Units.degreesToRadians(360), Units.degreesToRadians(540)),
+                          null, // Ideal starting state can be null for on-the-fly paths
+                          new GoalEndState(0.0, new Rotation2d(Math.PI / 2)));
 
-    //               // Prevent this path from being flipped on the red alliance, since the given
-    //               // positions are already correct
-    //               path.preventFlipping = true;
+                  // Prevent this path from being flipped on the red alliance, since the given
+                  // positions are already correct
+                  path.preventFlipping = true;
 
-    //               AutoBuilder.followPath(path).schedule();
-    //             }));
+                  AutoBuilder.followPath(path).schedule();
+                }));
 
+    // testing auto coral
+    // controller
+    //     .a()
+    //     .onTrue(new LowerIntakeCrocker(intake_m,
+    // 75).andThen(intake_m.intakeWheelsShootOutCoral()))
+    //     .onFalse(intake_m.intakeWheelsStopCommand());
     // de algaefier
     // controller.x().onTrue()
 

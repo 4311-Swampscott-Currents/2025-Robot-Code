@@ -27,6 +27,7 @@ import edu.wpi.first.hal.FRCNetComm.tInstances;
 import edu.wpi.first.hal.FRCNetComm.tResourceType;
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -50,6 +51,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.Constants;
 import frc.robot.Constants.Mode;
+import frc.robot.LimelightHelpers;
 import frc.robot.generated.TunerConstants;
 import frc.robot.util.LocalADStarAK;
 import java.util.concurrent.locks.Lock;
@@ -139,7 +141,7 @@ public class Drive extends SubsystemBase {
         this::getChassisSpeeds,
         this::runVelocity,
         new PPHolonomicDriveController(
-            new PIDConstants(32.0, 0.0, 0.0), new PIDConstants(5.0, 0.0, 0.0)),
+            new PIDConstants(32.0, 0.0, 0.0), new PIDConstants(7.0, 0.0, 0.0)),
         PP_CONFIG,
         () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
         this);
@@ -249,57 +251,56 @@ public class Drive extends SubsystemBase {
           modules[3].getPosition() // br
         });
 
-    // boolean useMegaTag2 = true; // set to false to use MegaTag1
-    // boolean doRejectUpdate = false;
+    boolean useMegaTag2 = true; // set to false to use MegaTag1
+    boolean doRejectUpdate = false;
 
-    // {
-    //   if (!useMegaTag2) {
-    //     LimelightHelpers.PoseEstimate mt1 =
-    //         LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+    {
+      if (!useMegaTag2) {
+        LimelightHelpers.PoseEstimate mt1 =
+            LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
 
-    //     if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
-    //       if (mt1.rawFiducials[0].ambiguity > .7) {
-    //         doRejectUpdate = true;
-    //       }
-    //       if (mt1.rawFiducials[0].distToCamera > 3) {
-    //         doRejectUpdate = true;
-    //       }
-    //     }
-    //     if (mt1.tagCount == 0) {
-    //       doRejectUpdate = true;
-    //     }
+        if (mt1.tagCount == 1 && mt1.rawFiducials.length == 1) {
+          if (mt1.rawFiducials[0].ambiguity > .7) {
+            doRejectUpdate = true;
+          }
+          if (mt1.rawFiducials[0].distToCamera > 3) {
+            doRejectUpdate = true;
+          }
+        }
+        if (mt1.tagCount == 0) {
+          doRejectUpdate = true;
+        }
 
-    //     if (!doRejectUpdate) {
-    //       poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.5, .5, 9999999));
-    //       poseEstimator.addVisionMeasurement(mt1.pose, mt1.timestampSeconds);
-    //     }
-    //   } else if (useMegaTag2) {
-    //     LimelightHelpers.SetRobotOrientation(
-    //         "limelight",
-    //         poseEstimator.getEstimatedPosition().getRotation().getDegrees(),
-    //         0,
-    //         0,
-    //         0,
-    //         0,
-    //         0);
-    //     LimelightHelpers.PoseEstimate mt2 =
-    //         LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
-    //     if (Math.abs(Math.toDegrees(gyroInputs.yawVelocityRadPerSec))
-    //         > 720) // if our angular velocity is greater than 720 degrees per second, ignore
-    // vision
-    //     // updates
-    //     {
-    //       doRejectUpdate = true;
-    //     }
-    //     if (mt2.tagCount == 0) {
-    //       doRejectUpdate = true;
-    //     }
-    //     if (!doRejectUpdate) {
-    //       poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
-    //       poseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
-    //     }
-    //   }
-    // }
+        if (!doRejectUpdate) {
+          poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.5, .5, 9999999));
+          poseEstimator.addVisionMeasurement(mt1.pose, mt1.timestampSeconds);
+        }
+      } else if (useMegaTag2) {
+        LimelightHelpers.SetRobotOrientation(
+            "limelight",
+            poseEstimator.getEstimatedPosition().getRotation().getDegrees(),
+            0,
+            0,
+            0,
+            0,
+            0);
+        LimelightHelpers.PoseEstimate mt2 =
+            LimelightHelpers.getBotPoseEstimate_wpiBlue_MegaTag2("limelight");
+        if (Math.abs(Math.toDegrees(gyroInputs.yawVelocityRadPerSec))
+            > 720) // if our angular velocity is greater than 720 degrees per second, ignore vision
+        // updates
+        {
+          doRejectUpdate = true;
+        }
+        if (mt2.tagCount == 0) {
+          doRejectUpdate = true;
+        }
+        if (!doRejectUpdate) {
+          poseEstimator.setVisionMeasurementStdDevs(VecBuilder.fill(.7, .7, 9999999));
+          poseEstimator.addVisionMeasurement(mt2.pose, mt2.timestampSeconds);
+        }
+      }
+    }
   }
 
   /**
