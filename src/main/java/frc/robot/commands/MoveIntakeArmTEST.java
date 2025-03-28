@@ -8,7 +8,7 @@ import frc.robot.subsystems.Intake;
 public class MoveIntakeArmTEST extends Command {
 
   int timer;
-  public static double finalPosition;
+  public double finalPosition;
   public static boolean raising;
   private final Intake m_intake;
   private double distanceLeft;
@@ -20,11 +20,18 @@ public class MoveIntakeArmTEST extends Command {
     m_intake = intake;
     // calculating the distance to move
     finalPosition = finalAngle;
-    totalDistanceToMove = Math.abs(finalAngle - Robot.intakePos);
+    totalDistanceToMove = Math.abs(finalPosition - Robot.intakePos);
     // calculating the distance left to move
-    distanceLeft = finalAngle - Robot.intakePos;
+    distanceLeft = finalPosition - Robot.intakePos;
     // calculating the applied voltage
-    appliedVoltage = 16 * Constants.intakeMotorSpeed * distanceLeft / totalDistanceToMove;
+    if(totalDistanceToMove == 0)
+    {
+        appliedVoltage = 0;
+    }
+    else
+    {
+        appliedVoltage = 16 * Constants.intakeMotorSpeed * distanceLeft / totalDistanceToMove;
+    }
     addRequirements(m_intake);
   }
 
@@ -33,6 +40,7 @@ public class MoveIntakeArmTEST extends Command {
 
     m_intake.moveIntakeArm(appliedVoltage);
     timer = 0;
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -56,7 +64,7 @@ public class MoveIntakeArmTEST extends Command {
   @Override
   public boolean isFinished() {
 
-    if (Math.abs(finalPosition - Robot.intakePos) < 1) {
+    if (Math.abs(distanceLeft) < 1) {
       return true;
     }
 
