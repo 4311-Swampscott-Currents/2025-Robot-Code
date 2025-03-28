@@ -72,6 +72,7 @@ public class RobotContainer {
   static final NetworkTable limelightTable = ntInstance.getTable("limelight");
   public static final ClimberMotor climber_m = new ClimberMotor();
   public static final Intake intake_m = new Intake();
+  public static Pose2d robotPose;
 
   // Aiden Tat Stuff:
   private static Translation2d goaltrans = new Translation2d(6, 0.63);
@@ -151,6 +152,8 @@ public class RobotContainer {
                 new ModuleIO() {});
         break;
     }
+
+    robotPose = drive.getPose();
 
     // ClimbUp climbCommand = new ClimbUp();
 
@@ -300,7 +303,11 @@ public class RobotContainer {
 
                   AutoBuilder.followPath(path).schedule();
                 }));
-
+    // testing new movement system
+    // controller
+    //     .a()
+    //     .onTrue(new MoveIntakeArmTEST(intake_m, 45))
+    //     .onFalse(intake_m.stopIntakeArmCommand());
     // testing auto coral
     // controller
     //     .a()

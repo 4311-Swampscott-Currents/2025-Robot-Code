@@ -240,7 +240,7 @@ public class Intake extends SubsystemBase {
   }
 
   public Command stopIntakeArmCommand() {
-    return this.runOnce(() -> intakeArm.stopMotor());
+    return this.runOnce(() -> intakeArm.setControl(new VoltageOut(0)));
   }
 
   public void stopWheels() {

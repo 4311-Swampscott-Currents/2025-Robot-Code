@@ -20,6 +20,7 @@ import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Threads;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -42,6 +43,7 @@ public class Robot extends LoggedRobot {
   private RobotContainer robotContainer;
   public static double intakePos;
   public double climberPos;
+  private Field2d field = new Field2d();
   NetworkTable limelightTable;
 
   // private ClimberMotor climber;
@@ -121,6 +123,7 @@ public class Robot extends LoggedRobot {
     CameraServer.startAutomaticCapture(0);
     String limelightURL = "http://10.43.11.11:5800/stream.mjpg";
     SmartDashboard.putString("Limelight Stream", limelightURL);
+    SmartDashboard.putData("Field", field);
   }
   /** This function is called periodically during all modes. */
   @Override
@@ -159,6 +162,7 @@ public class Robot extends LoggedRobot {
     SmartDashboard.putBoolean("Intake Wheels Stop?", RobotContainer.intake_m.areWheelsStop());
     // SmartDashboard.putNumber("De-Algae Position", RobotContainer.intake_m.getDeAlgaePos());
     SmartDashboard.putBoolean("De-Algae Up?", RobotContainer.intake_m.getDeAlgaeUp());
+    field.setRobotPose(RobotContainer.robotPose);
   }
 
   /** This function is called once when the robot is disabled. */

@@ -95,6 +95,12 @@ public class Drive extends SubsystemBase {
               TunerConstants.FrontLeft.SlipCurrent,
               1),
           getModuleTranslations());
+  /*try{
+    PP_CONFIG = RobotConfig.fromGUISettings();
+  } catch (Exception e)
+  {
+    e.printStackTrace();
+  }*/
 
   static final Lock odometryLock = new ReentrantLock();
   private final GyroIO gyroIO;

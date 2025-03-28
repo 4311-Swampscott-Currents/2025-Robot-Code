@@ -24,13 +24,10 @@ public class MoveIntakeArmTEST extends Command {
     // calculating the distance left to move
     distanceLeft = finalPosition - Robot.intakePos;
     // calculating the applied voltage
-    if(totalDistanceToMove == 0)
-    {
-        appliedVoltage = 0;
-    }
-    else
-    {
-        appliedVoltage = 16 * Constants.intakeMotorSpeed * distanceLeft / totalDistanceToMove;
+    if (totalDistanceToMove == 0) {
+      appliedVoltage = 0;
+    } else {
+      appliedVoltage = 16 * Constants.intakeMotorSpeed * distanceLeft / totalDistanceToMove;
     }
     addRequirements(m_intake);
   }
@@ -40,7 +37,6 @@ public class MoveIntakeArmTEST extends Command {
 
     m_intake.moveIntakeArm(appliedVoltage);
     timer = 0;
-    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
