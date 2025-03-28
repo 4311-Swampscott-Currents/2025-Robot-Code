@@ -156,6 +156,10 @@ public class Intake extends SubsystemBase {
         intakeWheelsconfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
   }
 
+  public void moveIntakeArm(double speed) {
+    intakeArm.setControl(new VoltageOut(speed));
+  }
+
   public void lowerIntake() {
     intakeArm.setControl(turnSpeedDown);
     // intakeArm.set(-Constants.intakeMotorSpeed);

@@ -5,7 +5,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.Intake;
 
 public class LowerIntakeToPos extends Command {
-  // Code runs, but motor does not turn...
+
   int timer;
   public static double finalPosition;
   public static boolean raising;
