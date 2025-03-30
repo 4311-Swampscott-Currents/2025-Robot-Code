@@ -34,7 +34,6 @@ public class MoveIntakeArmTEST extends Command {
 
   @Override
   public void initialize() {
-
     m_intake.moveIntakeArm(appliedVoltage);
     timer = 0;
   }
@@ -42,7 +41,6 @@ public class MoveIntakeArmTEST extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
     distanceLeft = finalPosition - Robot.intakePos;
     appliedVoltage = 16 * Constants.intakeMotorSpeed * distanceLeft / totalDistanceToMove;
     m_intake.moveIntakeArm(appliedVoltage);
@@ -60,7 +58,7 @@ public class MoveIntakeArmTEST extends Command {
   @Override
   public boolean isFinished() {
 
-    if (Math.abs(distanceLeft) < 1) {
+    if (Math.abs(distanceLeft) < 2) {
       return true;
     }
 

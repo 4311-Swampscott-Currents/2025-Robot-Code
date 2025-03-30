@@ -37,6 +37,7 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.IntakeUpToPos;
 import frc.robot.commands.LowerIntakeCrocker;
 import frc.robot.commands.LowerIntakeToPos;
+import frc.robot.commands.MoveIntakeArmTEST;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberMotor;
 import frc.robot.subsystems.Intake;
@@ -75,7 +76,7 @@ public class RobotContainer {
   public static Pose2d robotPose;
 
   // Aiden Tat Stuff:
-  private static Translation2d goaltrans = new Translation2d(6, 0.63);
+  private static Translation2d goaltrans = new Translation2d(5.5, 0.8);
 
   // static final ClimberUp climberLift = new ClimberUp();
   // static final ClimberDown climberlower = new ClimberDown();
@@ -159,7 +160,7 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("Shoot", intake_m.intakeWheelsShootOutCoral());
     NamedCommands.registerCommand("Stop Shoot", intake_m.intakeWheelsStopCommand());
-    NamedCommands.registerCommand("Lower Intake", new LowerIntakeCrocker(intake_m, 75));
+    NamedCommands.registerCommand("Lower Intake", new MoveIntakeArmTEST(intake_m, 53));
     NamedCommands.registerCommand("Raise Intake", new IntakeUpToPos(intake_m, 75));
     // NamedCommands.registerCommand("null", getAutonomousCommand());
 
@@ -299,7 +300,7 @@ public class RobotContainer {
 
                   // Prevent this path from being flipped on the red alliance, since the given
                   // positions are already correct
-                  path.preventFlipping = true;
+                  path.preventFlipping = false;
 
                   AutoBuilder.followPath(path).schedule();
                 }));
@@ -309,11 +310,10 @@ public class RobotContainer {
     //     .onTrue(new MoveIntakeArmTEST(intake_m, 45))
     //     .onFalse(intake_m.stopIntakeArmCommand());
     // testing auto coral
-    // controller
-    //     .a()
-    //     .onTrue(new LowerIntakeCrocker(intake_m,
-    // 75).andThen(intake_m.intakeWheelsShootOutCoral()))
-    //     .onFalse(intake_m.intakeWheelsStopCommand());
+    controller
+        .a()
+        .onTrue(new MoveIntakeArmTEST(intake_m, 53).andThen(intake_m.intakeWheelsShootOutCoral()))
+        .onFalse(intake_m.intakeWheelsStopCommand());
     // de algaefier
     // controller.x().onTrue()
 
@@ -342,6 +342,10 @@ public class RobotContainer {
     // runs climb down command when x is pressed
     // controller.y().onTrue(new IntakeUp(intake_m));
 
+  }
+
+  public Pose2d updatePose() {
+    return drive.getPose();
   }
   // }
 

@@ -45,12 +45,6 @@
           "data": {
             "name": "Stop Shoot"
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "Left Return"
-          }
         }
       ]
     }

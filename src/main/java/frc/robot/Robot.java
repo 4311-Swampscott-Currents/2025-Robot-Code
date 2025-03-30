@@ -17,8 +17,10 @@ import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.DriveMotorArrangement;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants.SteerMotorArrangement;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Threads;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -39,11 +41,13 @@ import org.littletonrobotics.junction.wpilog.WPILOGWriter;
  * project.
  */
 public class Robot extends LoggedRobot {
+  private double matchTime;
   private Command autonomousCommand;
   private RobotContainer robotContainer;
   public static double intakePos;
   public double climberPos;
   private Field2d field = new Field2d();
+  private Pose2d r_pose;
   NetworkTable limelightTable;
 
   // private ClimberMotor climber;
@@ -115,6 +119,7 @@ public class Robot extends LoggedRobot {
   // Testing out differnt options...
   @Override
   public void robotInit() {
+    matchTime = DriverStation.getMatchTime();
     RobotContainer.climber_m.enterBrake();
     RobotContainer.intake_m.armEnterBrake();
     RobotContainer.intake_m.wheelsEnterBrake();
@@ -128,6 +133,8 @@ public class Robot extends LoggedRobot {
   /** This function is called periodically during all modes. */
   @Override
   public void robotPeriodic() {
+    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+    r_pose = robotContainer.updatePose();
     intakePos = RobotContainer.intakeEncoder.get() * 360;
     intakePos -= Constants.intakeEncoderOffset;
     if (intakePos < 0) {
@@ -162,7 +169,7 @@ public class Robot extends LoggedRobot {
     SmartDashboard.putBoolean("Intake Wheels Stop?", RobotContainer.intake_m.areWheelsStop());
     // SmartDashboard.putNumber("De-Algae Position", RobotContainer.intake_m.getDeAlgaePos());
     SmartDashboard.putBoolean("De-Algae Up?", RobotContainer.intake_m.getDeAlgaeUp());
-    field.setRobotPose(RobotContainer.robotPose);
+    field.setRobotPose(r_pose);
   }
 
   /** This function is called once when the robot is disabled. */
