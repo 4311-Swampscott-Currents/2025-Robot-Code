@@ -34,8 +34,8 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
+import frc.robot.commands.IntakeAlgae;
 import frc.robot.commands.IntakeUpToPos;
-import frc.robot.commands.LowerIntakeCrocker;
 import frc.robot.commands.LowerIntakeToPos;
 import frc.robot.commands.MoveIntakeArmTEST;
 import frc.robot.generated.TunerConstants;
@@ -162,6 +162,9 @@ public class RobotContainer {
     NamedCommands.registerCommand("Stop Shoot", intake_m.intakeWheelsStopCommand());
     NamedCommands.registerCommand("Lower Intake", new MoveIntakeArmTEST(intake_m, 53));
     NamedCommands.registerCommand("Raise Intake", new IntakeUpToPos(intake_m, 75));
+    NamedCommands.registerCommand("Intake Algae", new IntakeAlgae(intake_m));
+    NamedCommands.registerCommand(
+        "Score Algae", intake_m.intakeWheelsSpinCommand(Constants.intakeWheelOutSpeed, false));
     // NamedCommands.registerCommand("null", getAutonomousCommand());
 
     // Set up auto routines
@@ -266,9 +269,12 @@ public class RobotContainer {
     controller
         .leftBumper()
         .onTrue(
-            new LowerIntakeCrocker(intake_m, 70)
-                // new MoveIntakeArmTEST(intake_m, 47)
-                .andThen(intake_m.intakeWheelsSpinCommand(Constants.intakeWheelOutSpeed, false)))
+            intake_m
+                .intakeWheelsSpinCommand(Constants.intakeWheelOutSpeed, false)
+                .andThen(new MoveIntakeArmTEST(intake_m, 47)))
+        // new LowerIntakeCrocker(intake_m, 70)
+        // new MoveIntakeArmTEST(intake_m, 47)
+        // .andThen(intake_m.intakeWheelsSpinCommand(Constants.intakeWheelOutSpeed, false)))
         .onFalse(intake_m.intakeWheelsStopCommand().andThen(new IntakeUpToPos(intake_m, 80)));
     // Crocker stuff
     controller.povUp().onTrue(intake_m.intakeUp()).onFalse(intake_m.intakeStop());

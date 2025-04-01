@@ -25,6 +25,8 @@ public class IntakeAlgae extends Command {
 
     // m_intake.armExitBrake();
     // m_intake.intakeWheelsSpinIn();
+    new LowerIntakeToPos(m_intake, 50);
+    m_intake.intakeWheelsSpin(Constants.intakeWheelSpeed, true);
 
     timer = 0;
   }
@@ -33,40 +35,29 @@ public class IntakeAlgae extends Command {
   @Override
   public void execute() {
 
-    // if (RobotContainer.intakeEncoder.get() > Constants.intakeInitalMaxAngle) {
-    //   isPartiallyIntake = true;
-    // }
-    // if (isPartiallyIntake) {
-    //   m_intake.armEnterBrake();
-
-    //   m_intake.raiseIntake();
-    // }
-
     timer++;
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_intake.stopIntakeArm();
-    m_intake.armEnterBrake();
-    m_intake.stopWheels();
+    m_intake.intakeWheelsSpin(Constants.intakeWheelSpeedAfterIntake, true);
+    new IntakeUpToPos(m_intake, 80);
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
 
-    if (m_intake.getIntakeWheelsVolt() > Constants.maxIntakeVolt) {
-
+    if (m_intake.areWheelsStop()) {
       return true;
     }
     // if (Robot.intakePos >= Constants.intakeFinalMaxAngle) {
     //   return true;
     // }
-    if (timer > 500) {
-      return true;
-    }
+    // if (timer > 500) {
+    //   return true;
+    // }
 
     return false;
   }
