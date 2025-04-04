@@ -1,0 +1,119 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.8670081967213115,
+        "y": 4.894108606557377
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.029815573773558,
+        "y": 6.632325819673539
+      },
+      "isLocked": false,
+      "linkedName": "JI Trough"
+    },
+    {
+      "anchor": {
+        "x": 0.75,
+        "y": 5.8
+      },
+      "prevControl": {
+        "x": 0.8339139344292954,
+        "y": 5.416393442624359
+      },
+      "nextControl": {
+        "x": 0.6002898250551612,
+        "y": 6.48438937114889
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.514344262295082,
+        "y": 6.41654713114754
+      },
+      "prevControl": {
+        "x": 5.802049180330936,
+        "y": 7.0998463114768136
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.6628679962013367,
+      "maxWaypointRelativePos": 1.1,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 0.75,
+        "y": 5.8
+      },
+      "rotationOffset": 180.0,
+      "minWaypointRelativePos": 0.6324786324786237,
+      "maxWaypointRelativePos": 0.8452041785375117,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "Lower Intake",
+      "waypointRelativePos": 0.5033238366571677,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Lower Intake"
+        }
+      }
+    },
+    {
+      "name": "Intake Algae",
+      "waypointRelativePos": 0.5565052231719005,
+      "endWaypointRelativePos": 1.574548907882243,
+      "command": null
+    },
+    {
+      "name": "Raise Intake",
+      "waypointRelativePos": 1.2,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 89.22577983507188
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": 59.99999999999999
+  },
+  "useDefaultConstraints": false
+}

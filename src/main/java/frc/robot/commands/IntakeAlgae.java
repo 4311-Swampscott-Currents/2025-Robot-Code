@@ -25,7 +25,7 @@ public class IntakeAlgae extends Command {
 
     // m_intake.armExitBrake();
     // m_intake.intakeWheelsSpinIn();
-    new LowerIntakeToPos(m_intake, 50);
+    // new LowerIntakeToPos(m_intake, 50);
     m_intake.intakeWheelsSpin(Constants.intakeWheelSpeed, true);
 
     timer = 0;
@@ -42,7 +42,7 @@ public class IntakeAlgae extends Command {
   @Override
   public void end(boolean interrupted) {
     m_intake.intakeWheelsSpin(Constants.intakeWheelSpeedAfterIntake, true);
-    new IntakeUpToPos(m_intake, 80);
+    // new IntakeUpToPos(m_intake, 80);
   }
 
   // Returns true when the command should end.

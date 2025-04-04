@@ -76,7 +76,7 @@ public class RobotContainer {
   public static Pose2d robotPose;
 
   // Aiden Tat Stuff:
-  private static Translation2d goaltrans = new Translation2d(5.5, 0.8);
+  private static Translation2d goaltrans = new Translation2d(5.75, 0.8);
 
   // static final ClimberUp climberLift = new ClimberUp();
   // static final ClimberDown climberlower = new ClimberDown();
@@ -161,6 +161,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("Shoot", intake_m.intakeWheelsShootOutCoral());
     NamedCommands.registerCommand("Stop Shoot", intake_m.intakeWheelsStopCommand());
     NamedCommands.registerCommand("Lower Intake", new MoveIntakeArmTEST(intake_m, 53));
+    NamedCommands.registerCommand("Lower Intake For Algae", new MoveIntakeArmTEST(intake_m, 53));
     NamedCommands.registerCommand("Raise Intake", new IntakeUpToPos(intake_m, 75));
     NamedCommands.registerCommand("Intake Algae", new IntakeAlgae(intake_m));
     NamedCommands.registerCommand(
@@ -168,7 +169,8 @@ public class RobotContainer {
     // NamedCommands.registerCommand("null", getAutonomousCommand());
 
     // Set up auto routines
-    autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
+    autoChooser =
+        new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser("Middle Score"));
 
     // autoChooser.addOption("Forward", new PathPlannerAuto("Forward"));
 
@@ -261,7 +263,7 @@ public class RobotContainer {
         .onTrue(
             intake_m
                 .intakeWheelsSpinCommand(Constants.intakeWheelSpeed, true)
-                .andThen(new LowerIntakeToPos(intake_m, 50)))
+                .andThen(new LowerIntakeToPos(intake_m, 60)))
         .onFalse(
             intake_m
                 .intakeWheelsSpinCommand(Constants.intakeWheelSpeedAfterIntake, true)

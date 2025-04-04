@@ -244,6 +244,7 @@ public class Intake extends SubsystemBase {
   }
 
   public void stopWheels() {
+    // intakeWheels.setVoltage(0);
     intakeWheels.stopMotor();
   }
 

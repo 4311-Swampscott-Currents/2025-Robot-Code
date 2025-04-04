@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.generated.TunerConstants;
+import frc.robot.subsystems.drive.Drive;
 import org.littletonrobotics.junction.LogFileUtil;
 import org.littletonrobotics.junction.LoggedRobot;
 import org.littletonrobotics.junction.Logger;
@@ -130,6 +131,7 @@ public class Robot extends LoggedRobot {
     SmartDashboard.putString("Limelight Stream", limelightURL);
     SmartDashboard.putData("Field", field);
   }
+
   /** This function is called periodically during all modes. */
   @Override
   public void robotPeriodic() {
@@ -170,6 +172,7 @@ public class Robot extends LoggedRobot {
     // SmartDashboard.putNumber("De-Algae Position", RobotContainer.intake_m.getDeAlgaePos());
     SmartDashboard.putBoolean("De-Algae Up?", RobotContainer.intake_m.getDeAlgaeUp());
     field.setRobotPose(r_pose);
+    SmartDashboard.putBoolean("Limelight Connected?", Drive.isConnected);
   }
 
   /** This function is called once when the robot is disabled. */

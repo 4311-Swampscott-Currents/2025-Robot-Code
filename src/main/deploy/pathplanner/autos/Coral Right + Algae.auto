@@ -55,13 +55,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Algae Run"
+            "pathName": "Algae Run Right"
           }
         },
         {
           "type": "named",
           "data": {
             "name": "Score Algae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Lower Intake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop Shoot"
           }
         }
       ]

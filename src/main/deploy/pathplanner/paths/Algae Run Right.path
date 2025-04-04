@@ -1,0 +1,129 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.8670081967213115,
+        "y": 3.227817622950819
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 4.576844328245003,
+        "y": 0.7447137327700508
+      },
+      "isLocked": false,
+      "linkedName": "EF Trough"
+    },
+    {
+      "anchor": {
+        "x": 0.85,
+        "y": 2.520543032786885
+      },
+      "prevControl": {
+        "x": 2.2165983606557385,
+        "y": 1.441649590163934
+      },
+      "nextControl": {
+        "x": 0.6537793086166434,
+        "y": 2.6754541049316405
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.9,
+        "y": 0.5905225409836055
+      },
+      "prevControl": {
+        "x": 5.794054948689356,
+        "y": 0.8632308783930304
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.6809116809116844,
+      "maxWaypointRelativePos": 1.4102564102564101,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [
+    {
+      "fieldPosition": {
+        "x": 0.85,
+        "y": 2.6
+      },
+      "rotationOffset": 180.0,
+      "minWaypointRelativePos": 0.2554605887939292,
+      "maxWaypointRelativePos": 0.9506172839506175,
+      "name": "Point Towards Zone"
+    }
+  ],
+  "eventMarkers": [
+    {
+      "name": "Lower Intake",
+      "waypointRelativePos": 0.6208633093525167,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Lower Intake For Algae"
+        }
+      }
+    },
+    {
+      "name": "Intake Algae",
+      "waypointRelativePos": 0.8,
+      "endWaypointRelativePos": 1.5,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Intake Algae"
+        }
+      }
+    },
+    {
+      "name": "Raise Intake",
+      "waypointRelativePos": 1.5,
+      "endWaypointRelativePos": null,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "Raise Intake"
+        }
+      }
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 2.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 90.0
+  },
+  "reversed": false,
+  "folder": null,
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -59.99999999999999
+  },
+  "useDefaultConstraints": false
+}
