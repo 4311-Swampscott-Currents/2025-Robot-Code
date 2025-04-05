@@ -36,7 +36,6 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.IntakeAlgae;
 import frc.robot.commands.IntakeUpToPos;
-import frc.robot.commands.LowerIntakeToPos;
 import frc.robot.commands.MoveIntakeArmTEST;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberMotor;
@@ -226,9 +225,9 @@ public class RobotContainer {
     // Aiden Work for Visial servo go here
     // controller.y().onTrue()
 
-    // Reset gyro to 0° when LB button is pressed
+    // Reset gyro to 0° when start button is pressed
     controller
-        .rightBumper()
+        .start()
         .onTrue(
             Commands.runOnce(
                     () ->
@@ -263,7 +262,8 @@ public class RobotContainer {
         .onTrue(
             intake_m
                 .intakeWheelsSpinCommand(Constants.intakeWheelSpeed, true)
-                .andThen(new LowerIntakeToPos(intake_m, 60)))
+                .andThen(
+                    new MoveIntakeArmTEST(intake_m, 35) /*new LowerIntakeToPos(intake_m, 57)*/))
         .onFalse(
             intake_m
                 .intakeWheelsSpinCommand(Constants.intakeWheelSpeedAfterIntake, true)
@@ -320,7 +320,7 @@ public class RobotContainer {
     //     .onFalse(intake_m.stopIntakeArmCommand());
     // testing auto coral
     controller
-        .a()
+        .rightBumper()
         .onTrue(new MoveIntakeArmTEST(intake_m, 53).andThen(intake_m.intakeWheelsShootOutCoral()))
         .onFalse(intake_m.intakeWheelsStopCommand());
     // de algaefier
