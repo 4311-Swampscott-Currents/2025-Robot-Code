@@ -124,7 +124,7 @@ public class Robot extends LoggedRobot {
     RobotContainer.climber_m.enterBrake();
     RobotContainer.intake_m.armEnterBrake();
     RobotContainer.intake_m.wheelsEnterBrake();
-    // RobotContainer.intake_m.deAlgae_mEnterBrake();
+    RobotContainer.intake_m.deAlgae_mEnterBrake();
     limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
     CameraServer.startAutomaticCapture(0);
     String limelightURL = "http://10.43.11.11:5800/stream.mjpg";

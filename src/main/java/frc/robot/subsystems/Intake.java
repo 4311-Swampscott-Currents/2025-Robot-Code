@@ -34,7 +34,10 @@ public class Intake extends SubsystemBase {
   private final TalonFX intakeArm = new TalonFX(Constants.intakeLiftMotorID);
   private final TalonFX intakeArm_M2 = new TalonFX(Constants.intakeLiftMotor2ID);
 
-  // private final TalonFX deAlgae_m = new TalonFX(Constants.deAlgae_mID);
+  private final TalonFX deAlgae_m = new TalonFX(Constants.deAlgae_mID);
+  private final SparkMax deAlgaeWheel =
+      new SparkMax(Constants.deAlgae_WheelId, MotorType.kBrushless);
+
   // private final Follower intakeArm_M2 = new Follower(Constants.intakeLiftMotorID, true);
 
   // in init function
@@ -57,7 +60,7 @@ public class Intake extends SubsystemBase {
 
   public Intake() {
 
-    // deAlgae_m.setPosition(0);
+    deAlgae_m.setPosition(0);
 
     intakeWheelsEncoder = intakeWheels.getEncoder();
 
@@ -125,13 +128,13 @@ public class Intake extends SubsystemBase {
     intakeArm_M2.setPosition(armEncoderPos);
   }
 
-  // public void deAlgae_mEnterBrake() {
-  //   deAlgae_m.setNeutralMode(NeutralModeValue.Brake);
-  // }
+  public void deAlgae_mEnterBrake() {
+    deAlgae_m.setNeutralMode(NeutralModeValue.Brake);
+  }
 
-  // public void deAlgae_mExitBrake() {
-  //   deAlgae_m.setNeutralMode(NeutralModeValue.Coast);
-  // }
+  public void deAlgae_mExitBrake() {
+    deAlgae_m.setNeutralMode(NeutralModeValue.Coast);
+  }
 
   public void armEnterBrake() {
     intakeArm.setNeutralMode(NeutralModeValue.Brake);
@@ -248,31 +251,31 @@ public class Intake extends SubsystemBase {
     intakeWheels.stopMotor();
   }
 
-  // public Command stopDeAlgae_mCommand() {
-  //   return this.runOnce(() -> deAlgae_m.stopMotor());
-  // }
+  public Command stopDeAlgae_mCommand() {
+    return this.runOnce(() -> deAlgae_m.setControl(new VoltageOut(0)));
+  }
 
-  // public Command deAlgae_mUpCommand() {
+  public Command deAlgae_mUpCommand() {
 
-  //   return this.runOnce(() -> deAlgae_m.set(-Constants.deAlgae_mSpeed));
-  // }
+    return this.runOnce(() -> deAlgae_m.setControl(new VoltageOut(-Constants.deAlgae_mSpeed)));
+  }
 
-  // public Command deAlgae_mDownCommand() {
-  //   return this.runOnce(() -> deAlgae_m.set(Constants.deAlgae_mSpeed));
-  // }
+  public Command deAlgae_mDownCommand() {
+    return this.runOnce(() -> deAlgae_m.setControl(new VoltageOut(Constants.deAlgae_mSpeed)));
+  }
 
-  // public void stopDeAlgae_m() {
-  //   deAlgae_m.stopMotor();
-  // }
+  public void stopDeAlgae_m() {
+    deAlgae_m.setControl(new VoltageOut(0));
+  }
 
-  // public void deAlgae_mUp() {
+  public void deAlgae_mUp() {
 
-  //   deAlgae_m.set(Constants.deAlgae_mSpeed);
-  // }
+    deAlgae_m.setControl(new VoltageOut(Constants.deAlgae_mSpeed));
+  }
 
-  // public void deAlgae_mDown() {
-  //   deAlgae_m.set(-Constants.deAlgae_mSpeed);
-  // }
+  public void deAlgae_mDown() {
+    deAlgae_m.setControl(new VoltageOut(-Constants.deAlgae_mSpeed));
+  }
 
   public void setDeAlgaeUp(boolean up) {
     deAlgae_mUp = up;
@@ -282,9 +285,17 @@ public class Intake extends SubsystemBase {
     return deAlgae_mUp;
   }
 
-  // public double getDeAlgaePos() {
-  //   return deAlgae_m.getPosition().getValueAsDouble();
-  // }
+  public double getDeAlgaePos() {
+    return deAlgae_m.getPosition().getValueAsDouble();
+  }
+
+  public Command spinDeAlgaeWheel() {
+    return this.runOnce(() -> deAlgaeWheel.set(Constants.deAlgaeWheelSpeed));
+  }
+
+  public Command stopDeAlgaeWheel() {
+    return this.runOnce(() -> deAlgaeWheel.set(0));
+  }
 }
 
 // public void intakeWheelsSpinIn() {

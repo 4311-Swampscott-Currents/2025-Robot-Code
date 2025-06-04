@@ -27,7 +27,7 @@ public class MoveIntakeArmTEST extends Command {
     if (totalDistanceToMove == 0) {
       appliedVoltage = 0;
     } else {
-      appliedVoltage = 16 * Constants.intakeMotorSpeed * distanceLeft / totalDistanceToMove;
+      appliedVoltage = 16 * Constants.intakeMotorSpeed * distanceLeft / (totalDistanceToMove);
     }
     addRequirements(m_intake);
   }
@@ -42,7 +42,7 @@ public class MoveIntakeArmTEST extends Command {
   @Override
   public void execute() {
     distanceLeft = finalPosition - Robot.intakePos;
-    appliedVoltage = 16 * Constants.intakeMotorSpeed * distanceLeft / totalDistanceToMove;
+    appliedVoltage = 16 * Constants.intakeMotorSpeed * distanceLeft / (totalDistanceToMove);
     m_intake.moveIntakeArm(appliedVoltage);
 
     timer++;
