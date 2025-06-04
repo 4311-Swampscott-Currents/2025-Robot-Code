@@ -56,7 +56,8 @@ public final class Constants {
   public static final double intakeWheelSpeedCoral = 0.175;
 
   public static final double deAlgae_mSpeed = 8;
-  public static double deAlgaeWheelSpeed = 1;
+  public static final double deAlgaeWheelSpeed = 1;
+  public static final double intakeArmGvalue = 0.15;
 
   // gear ratios
   public static final double climberGearRatio = 125;
