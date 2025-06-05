@@ -1,5 +1,4 @@
-
-//THIS CLASS IS NOT USED YET!!!
+// THIS CLASS IS NOT USED YET!!!
 package frc.robot.subsystems;
 
 import com.revrobotics.RelativeEncoder;

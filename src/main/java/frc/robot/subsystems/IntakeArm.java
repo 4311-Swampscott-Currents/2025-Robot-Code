@@ -124,8 +124,12 @@ public class IntakeArm extends SubsystemBase {
     return this.runOnce(() -> intakeArm.setControl(m_request.withPosition(position)));
   }
 
-  public Command keepArmInPlace(){
-    return this.runOnce(() -> intakeArm.setControl(new VoltageOut(Math.cos(Math.toRadians((Robot.intakePos-9) * Constants.intakeArmGvalue)))));
+  public Command keepArmInPlace() {
+    return this.runOnce(
+        () ->
+            intakeArm.setControl(
+                new VoltageOut(
+                    Math.cos(Math.toRadians((Robot.intakePos - 9) * Constants.intakeArmGvalue)))));
   }
 
   public void setArmPos(double armEncoderPos) {
