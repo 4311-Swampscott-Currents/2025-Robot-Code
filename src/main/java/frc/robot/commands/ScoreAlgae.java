@@ -3,16 +3,16 @@ package frc.robot.commands;
 // import com.google.flatbuffers.Constants;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeArm;
 
 public class ScoreAlgae extends Command {
 
   int timer;
 
-  private final Intake m_intake;
+  private final IntakeArm m_intake;
 
   // Called when the command is initially scheduled.
-  public ScoreAlgae(Intake intake) {
+  public ScoreAlgae(IntakeArm intake) {
     m_intake = intake;
     addRequirements(m_intake);
   }

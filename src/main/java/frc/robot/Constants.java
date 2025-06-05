@@ -78,8 +78,6 @@ public final class Constants {
   public static final double maxDeAlgae = 222.5;
   public static final double minDeAlgae = 0;
 
-
-
   // intake PID controls
   // private static final double kP = 0.1;
 }

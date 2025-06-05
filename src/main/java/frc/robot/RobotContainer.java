@@ -34,7 +34,8 @@ import frc.robot.commands.IntakeUpToPos;
 import frc.robot.commands.MoveIntakeArmTEST;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberMotor;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.DeAlgaeArm;
+import frc.robot.subsystems.IntakeArm;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
 import frc.robot.subsystems.drive.GyroIOPigeon2;
@@ -65,7 +66,8 @@ public class RobotContainer {
   static final NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
   static final NetworkTable limelightTable = ntInstance.getTable("limelight");
   public static final ClimberMotor climber_m = new ClimberMotor();
-  public static final Intake intake_m = new Intake();
+  public static final IntakeArm intake_m = new IntakeArm();
+  public static final DeAlgaeArm deAlgae_m = new DeAlgaeArm();
   public static Pose2d robotPose;
 
   // Aiden Tat Stuff:
@@ -104,6 +106,7 @@ public class RobotContainer {
   public RobotContainer() {
 
     intakeEncoder.setInverted(false);
+    intake_m.setDefaultCommand(intake_m.keepArmInPlace());
 
     // NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
     // NetworkTable limelightTable = ntInstance.getTable("limelight");
@@ -237,13 +240,13 @@ public class RobotContainer {
     // controller.a().onTrue(intake_m.deAlgae_mDownCommand()).onFalse(intake_m.deAlgae_mUpCommand());
     controller
         .rightBumper()
-        .onTrue(intake_m.deAlgae_mUpCommand())
-        .onFalse(intake_m.stopDeAlgae_mCommand());
+        .onTrue(deAlgae_m.deAlgae_mUpCommand())
+        .onFalse(deAlgae_m.stopDeAlgae_mCommand());
     controller
         .rightTrigger()
-        .onTrue(intake_m.deAlgae_mDownCommand())
-        .onFalse(intake_m.stopDeAlgae_mCommand());
-    controller.a().onTrue(intake_m.spinDeAlgaeWheel()).onFalse(intake_m.spinDeAlgaeWheel());
+        .onTrue(deAlgae_m.deAlgae_mDownCommand())
+        .onFalse(deAlgae_m.stopDeAlgae_mCommand());
+    controller.a().onTrue(deAlgae_m.spinDeAlgaeWheel()).onFalse(deAlgae_m.spinDeAlgaeWheel());
 
     // controller
     //     .leftTrigger()

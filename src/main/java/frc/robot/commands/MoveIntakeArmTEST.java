@@ -3,20 +3,20 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Robot;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeArm;
 
 public class MoveIntakeArmTEST extends Command {
 
   int timer;
   public double finalPosition;
   public static boolean raising;
-  private final Intake m_intake;
+  private final IntakeArm m_intake;
   private double distanceLeft;
   private double totalDistanceToMove;
   private double appliedVoltage;
 
   // Called when the command is initially scheduled.
-  public MoveIntakeArmTEST(Intake intake, double finalAngle) {
+  public MoveIntakeArmTEST(IntakeArm intake, double finalAngle) {
     m_intake = intake;
     // calculating the distance to move
     finalPosition = finalAngle;

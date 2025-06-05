@@ -4,17 +4,17 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeArm;
 
 public class IntakeAlgae extends Command {
 
   int timer;
   boolean isPartiallyIntake;
 
-  private final Intake m_intake;
+  private final IntakeArm m_intake;
 
   // Called when the command is initially scheduled.
-  public IntakeAlgae(Intake intake) {
+  public IntakeAlgae(IntakeArm intake) {
     m_intake = intake;
     isPartiallyIntake = false;
     addRequirements(m_intake);

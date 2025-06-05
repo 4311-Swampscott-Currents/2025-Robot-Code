@@ -2,19 +2,19 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Robot;
-import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.IntakeArm;
 
 public class IntakeUpToPos extends Command {
 
   int timer;
   public static double finalPosition;
   public static boolean raising;
-  private final Intake m_intake;
+  private final IntakeArm m_intake;
   // public static ClimberMotor climber;
 
   // Called when the command is initially scheduled.
 
-  public IntakeUpToPos(Intake intake, double finalAngle) {
+  public IntakeUpToPos(IntakeArm intake, double finalAngle) {
     m_intake = intake;
     finalPosition = finalAngle;
     addRequirements(m_intake);
