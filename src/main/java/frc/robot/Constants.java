@@ -51,11 +51,11 @@ public final class Constants {
   public static final double climberMotorSpeed = 1;
   public static final double intakeWheelSpeed = 0.3;
   public static final double intakeWheelOutSpeed = 0.2;
-  public static final double intakeMotorSpeed = 0.2; // from 0.25
+  public static final double intakeMotorSpeed = 0.15; // from 0.25
   public static final double intakeWheelSpeedAfterIntake = 0.2;
   public static final double intakeWheelSpeedCoral = 0.175;
 
-  public static final double deAlgae_mSpeed = 8;
+  public static final double deAlgae_mSpeed = 12;
   public static final double deAlgaeWheelSpeed = 1;
   public static final double intakeArmGvalue = 0.15;
 

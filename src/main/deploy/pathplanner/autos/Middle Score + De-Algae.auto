@@ -1,0 +1,109 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Middle Score"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Lower Intake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.3
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop Shoot"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.5
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Raise Intake"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "DeAlgae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Lower Intake For Algae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Spin De-Algae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Raise De-Algae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Raise Intake For Algae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Lower De-Algae"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Stop De-Algae"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

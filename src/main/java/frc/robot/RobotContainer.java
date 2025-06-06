@@ -160,10 +160,16 @@ public class RobotContainer {
 
     NamedCommands.registerCommand("Shoot", intake_m.intakeWheelsShootOutCoral());
     NamedCommands.registerCommand("Stop Shoot", intake_m.intakeWheelsStopCommand());
-    NamedCommands.registerCommand("Lower Intake", new MoveIntakeArmTEST(intake_m, 53));
-    NamedCommands.registerCommand("Lower Intake For Algae", new MoveIntakeArmTEST(intake_m, 53));
+    NamedCommands.registerCommand("Lower Intake", new MoveIntakeArmTEST(intake_m, 60));
+    NamedCommands.registerCommand("Lower Intake For Algae", new MoveIntakeArmTEST(intake_m, 30));
     NamedCommands.registerCommand("Raise Intake", new IntakeUpToPos(intake_m, 75));
     NamedCommands.registerCommand("Intake Algae", new IntakeAlgae(intake_m));
+    NamedCommands.registerCommand("Spin De-Algae", deAlgae_m.spinDeAlgaeWheel());
+    NamedCommands.registerCommand("Stop De-Algae", deAlgae_m.stopDeAlgaeWheel());
+    NamedCommands.registerCommand("Raise De-Algae", new DeAlgae(deAlgae_m, 200));
+    NamedCommands.registerCommand("Lower De-Algae", new DeAlgae(deAlgae_m, 0));
+    NamedCommands.registerCommand("Raise Intake For Algae", new IntakeUpToPos(intake_m, 60));
+
     NamedCommands.registerCommand(
         "Score Algae", intake_m.intakeWheelsSpinCommand(Constants.intakeWheelOutSpeed, false));
     // NamedCommands.registerCommand("null", getAutonomousCommand());
@@ -335,11 +341,10 @@ public class RobotContainer {
 
     // testing auto coral
 
-    // controller
-    //     .rightBumper()
-    //     .onTrue(new MoveIntakeArmTEST(intake_m,
-    // 53).andThen(intake_m.intakeWheelsShootOutCoral()))
-    //     .onFalse(intake_m.intakeWheelsStopCommand());
+    controller
+        .rightBumper()
+        .onTrue(new MoveIntakeArmTEST(intake_m, 53).andThen(intake_m.intakeWheelsShootOutCoral()))
+        .onFalse(intake_m.intakeWheelsStopCommand());
 
     // de algaefier
     // controller.x().onTrue()
