@@ -173,6 +173,7 @@ public class Robot extends LoggedRobot {
     SmartDashboard.putBoolean("De-Algae Up?", RobotContainer.deAlgae_m.getDeAlgaeUp());
     field.setRobotPose(r_pose);
     SmartDashboard.putBoolean("Limelight Connected?", Drive.isConnected);
+    // SmartDashboard.putBoolean("null", isAutonomous())
   }
 
   /** This function is called once when the robot is disabled. */

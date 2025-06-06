@@ -41,7 +41,7 @@ public final class Constants {
   public static final int intakeLiftMotorID = 14;
   public static final int intakeLiftMotor2ID = 17;
   public static final int deAlgae_mID = 18;
-  public static int deAlgae_WheelId = 19;
+  public static final int deAlgae_WheelId = 19;
 
   // encoder ids
   // public static final int climberEncoderID = 0;
@@ -51,7 +51,7 @@ public final class Constants {
   public static final double climberMotorSpeed = 1;
   public static final double intakeWheelSpeed = 0.3;
   public static final double intakeWheelOutSpeed = 0.2;
-  public static final double intakeMotorSpeed = 0.25;
+  public static final double intakeMotorSpeed = 0.2; // from 0.25
   public static final double intakeWheelSpeedAfterIntake = 0.2;
   public static final double intakeWheelSpeedCoral = 0.175;
 

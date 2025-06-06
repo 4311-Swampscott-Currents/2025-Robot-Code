@@ -56,12 +56,15 @@ public class IntakeArm extends SubsystemBase {
 
   // create a Motion Magic request, voltage output
   final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
-  VoltageOut turnSpeedUp = new VoltageOut(Constants.intakeMotorSpeed * 16);
-  VoltageOut turnSpeedDown = new VoltageOut(Constants.intakeMotorSpeed * -16);
+  VoltageOut turnSpeedUp = new VoltageOut(Constants.intakeMotorSpeed * 16 / 2);
+  VoltageOut turnSpeedDown = new VoltageOut(Constants.intakeMotorSpeed * -16 / 2);
 
   public IntakeArm() {
 
     // deAlgae_m.setPosition(0);
+
+    // intakeUp().addRequirements(this);
+    // intakeDown().addRequirements(this);
 
     intakeWheelsEncoder = intakeWheels.getEncoder();
 
@@ -129,7 +132,7 @@ public class IntakeArm extends SubsystemBase {
         () ->
             intakeArm.setControl(
                 new VoltageOut(
-                    Math.cos(Math.toRadians((Robot.intakePos - 9) * Constants.intakeArmGvalue)))));
+                    Math.cos(Math.toRadians(Robot.intakePos - 9)) * Constants.intakeArmGvalue)));
   }
 
   public void setArmPos(double armEncoderPos) {
@@ -210,12 +213,12 @@ public class IntakeArm extends SubsystemBase {
   }
   // Crocker additions
   public Command intakeUp() {
-    return this.runOnce(() -> intakeArm.setControl(turnSpeedUp));
+    return this.run(() -> intakeArm.setControl(turnSpeedUp));
     // return this.runOnce(() -> intakeArm.set(Constants.intakeMotorSpeed));
   }
 
   public Command intakeDown() {
-    return this.runOnce(() -> intakeArm.setControl(turnSpeedDown));
+    return this.run(() -> intakeArm.setControl(turnSpeedDown));
     // return this.runOnce(() -> intakeArm.set(-Constants.intakeMotorSpeed));
   }
 

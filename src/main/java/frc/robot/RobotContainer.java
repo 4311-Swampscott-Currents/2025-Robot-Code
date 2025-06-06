@@ -28,6 +28,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 // import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
+import frc.robot.commands.DeAlgae;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.IntakeAlgae;
 import frc.robot.commands.IntakeUpToPos;
@@ -107,6 +108,9 @@ public class RobotContainer {
 
     intakeEncoder.setInverted(false);
     intake_m.setDefaultCommand(intake_m.keepArmInPlace());
+
+    intake_m.intakeUp().addRequirements(intake_m);
+    intake_m.intakeDown().addRequirements(intake_m);
 
     // NetworkTableInstance ntInstance = NetworkTableInstance.getDefault();
     // NetworkTable limelightTable = ntInstance.getTable("limelight");
@@ -238,15 +242,20 @@ public class RobotContainer {
 
     // controller.a().onTrue(new DeAlgae(intake_m, 150));
     // controller.a().onTrue(intake_m.deAlgae_mDownCommand()).onFalse(intake_m.deAlgae_mUpCommand());
-    controller
-        .rightBumper()
-        .onTrue(deAlgae_m.deAlgae_mUpCommand())
-        .onFalse(deAlgae_m.stopDeAlgae_mCommand());
+    // controller
+    //     .rightBumper()
+    //     .onTrue(deAlgae_m.deAlgae_mUpCommand())
+    //     .onFalse(deAlgae_m.stopDeAlgae_mCommand());
+    // controller
+    //     .rightTrigger()
+    //     .onTrue(deAlgae_m.deAlgae_mDownCommand())
+    //     .onFalse(deAlgae_m.stopDeAlgae_mCommand());
+    // controller.a().onTrue(deAlgae_m.spinDeAlgaeWheel()).onFalse(deAlgae_m.stopDeAlgaeWheel());
+
     controller
         .rightTrigger()
-        .onTrue(deAlgae_m.deAlgae_mDownCommand())
-        .onFalse(deAlgae_m.stopDeAlgae_mCommand());
-    controller.a().onTrue(deAlgae_m.spinDeAlgaeWheel()).onFalse(deAlgae_m.spinDeAlgaeWheel());
+        .onTrue(deAlgae_m.spinDeAlgaeWheel().andThen(new DeAlgae(deAlgae_m, 220)))
+        .onFalse(new DeAlgae(deAlgae_m, 0).andThen(deAlgae_m.stopDeAlgaeWheel()));
 
     // controller
     //     .leftTrigger()
@@ -272,7 +281,7 @@ public class RobotContainer {
         .onFalse(
             intake_m
                 .intakeWheelsSpinCommand(Constants.intakeWheelSpeedAfterIntake, true)
-                .andThen(new IntakeUpToPos(intake_m, 80)));
+                .andThen(new IntakeUpToPos(intake_m, 75)));
     controller
         .leftBumper()
         .onTrue(
@@ -282,7 +291,7 @@ public class RobotContainer {
         // new LowerIntakeCrocker(intake_m, 70)
         // new MoveIntakeArmTEST(intake_m, 47)
         // .andThen(intake_m.intakeWheelsSpinCommand(Constants.intakeWheelOutSpeed, false)))
-        .onFalse(intake_m.intakeWheelsStopCommand().andThen(new IntakeUpToPos(intake_m, 80)));
+        .onFalse(intake_m.intakeWheelsStopCommand().andThen(new IntakeUpToPos(intake_m, 75)));
     // Crocker stuff
     controller.povUp().onTrue(intake_m.intakeUp()).onFalse(intake_m.intakeStop());
 

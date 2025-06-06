@@ -13,8 +13,7 @@ import frc.robot.Constants;
 
 public class DeAlgaeArm extends SubsystemBase {
   private final TalonFX deAlgae_m = new TalonFX(Constants.deAlgae_mID);
-  private final SparkMax deAlgaeWheel =
-      new SparkMax(Constants.deAlgae_WheelId, MotorType.kBrushless);
+  private final SparkMax deAlgaeWheel = new SparkMax(Constants.deAlgae_WheelId, MotorType.kBrushed);
   private boolean deAlgae_mUp; // true if up, false if down
 
   public DeAlgaeArm() {
