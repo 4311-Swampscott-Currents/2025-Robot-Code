@@ -124,7 +124,7 @@ public class Robot extends LoggedRobot {
     RobotContainer.climber_m.enterBrake();
     RobotContainer.intake_m.armEnterBrake();
     RobotContainer.intake_m.wheelsEnterBrake();
-    RobotContainer.deAlgae_m.deAlgae_mEnterBrake();
+    // RobotContainer.deAlgae_m.deAlgae_mEnterBrake();
     limelightTable = NetworkTableInstance.getDefault().getTable("limelight");
     CameraServer.startAutomaticCapture(0);
     String limelightURL = "http://10.43.11.11:5800/stream.mjpg";
@@ -170,7 +170,7 @@ public class Robot extends LoggedRobot {
         "Intake Wheel Speed", RobotContainer.intake_m.getIntakeWheelVelocity());
     SmartDashboard.putBoolean("Intake Wheels Stop?", RobotContainer.intake_m.areWheelsStop());
     // SmartDashboard.putNumber("De-Algae Position", RobotContainer.intake_m.getDeAlgaePos());
-    SmartDashboard.putBoolean("De-Algae Up?", RobotContainer.deAlgae_m.getDeAlgaeUp());
+    // SmartDashboard.putBoolean("De-Algae Up?", RobotContainer.deAlgae_m.getDeAlgaeUp());
     field.setRobotPose(r_pose);
     SmartDashboard.putBoolean("Limelight Connected?", Drive.isConnected);
     // SmartDashboard.putBoolean("null", isAutonomous())

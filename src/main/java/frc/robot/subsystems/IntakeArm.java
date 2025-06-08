@@ -56,8 +56,8 @@ public class IntakeArm extends SubsystemBase {
 
   // create a Motion Magic request, voltage output
   final MotionMagicVoltage m_request = new MotionMagicVoltage(0);
-  VoltageOut turnSpeedUp = new VoltageOut(Constants.intakeMotorSpeed * 16 / 1.5);
-  VoltageOut turnSpeedDown = new VoltageOut(Constants.intakeMotorSpeed * -16 / 1.5);
+  VoltageOut turnSpeedUp = new VoltageOut(Constants.intakeMotorSpeed * 16);
+  VoltageOut turnSpeedDown = new VoltageOut(Constants.intakeMotorSpeed * -16);
 
   public IntakeArm() {
 

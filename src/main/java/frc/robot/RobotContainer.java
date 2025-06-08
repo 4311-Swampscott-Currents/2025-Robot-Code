@@ -28,14 +28,13 @@ import edu.wpi.first.wpilibj2.command.Commands;
 // import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
-import frc.robot.commands.DeAlgae;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.IntakeAlgae;
 import frc.robot.commands.IntakeUpToPos;
 import frc.robot.commands.MoveIntakeArmTEST;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.ClimberMotor;
-import frc.robot.subsystems.DeAlgaeArm;
+// import frc.robot.subsystems.DeAlgaeArm;
 import frc.robot.subsystems.IntakeArm;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.subsystems.drive.GyroIO;
@@ -68,7 +67,7 @@ public class RobotContainer {
   static final NetworkTable limelightTable = ntInstance.getTable("limelight");
   public static final ClimberMotor climber_m = new ClimberMotor();
   public static final IntakeArm intake_m = new IntakeArm();
-  public static final DeAlgaeArm deAlgae_m = new DeAlgaeArm();
+  // public static final DeAlgaeArm deAlgae_m = new DeAlgaeArm();
   public static Pose2d robotPose;
 
   // Aiden Tat Stuff:
@@ -164,10 +163,10 @@ public class RobotContainer {
     NamedCommands.registerCommand("Lower Intake For Algae", new MoveIntakeArmTEST(intake_m, 30));
     NamedCommands.registerCommand("Raise Intake", new IntakeUpToPos(intake_m, 75));
     NamedCommands.registerCommand("Intake Algae", new IntakeAlgae(intake_m));
-    NamedCommands.registerCommand("Spin De-Algae", deAlgae_m.spinDeAlgaeWheel());
-    NamedCommands.registerCommand("Stop De-Algae", deAlgae_m.stopDeAlgaeWheel());
-    NamedCommands.registerCommand("Raise De-Algae", new DeAlgae(deAlgae_m, 200));
-    NamedCommands.registerCommand("Lower De-Algae", new DeAlgae(deAlgae_m, 0));
+    // NamedCommands.registerCommand("Spin De-Algae", deAlgae_m.spinDeAlgaeWheel());
+    // NamedCommands.registerCommand("Stop De-Algae", deAlgae_m.stopDeAlgaeWheel());
+    // NamedCommands.registerCommand("Raise De-Algae", new DeAlgae(deAlgae_m, 200));
+    // NamedCommands.registerCommand("Lower De-Algae", new DeAlgae(deAlgae_m, 0));
     NamedCommands.registerCommand("Raise Intake For Algae", new IntakeUpToPos(intake_m, 60));
 
     NamedCommands.registerCommand(
@@ -258,10 +257,10 @@ public class RobotContainer {
     //     .onFalse(deAlgae_m.stopDeAlgae_mCommand());
     // controller.a().onTrue(deAlgae_m.spinDeAlgaeWheel()).onFalse(deAlgae_m.stopDeAlgaeWheel());
 
-    controller
-        .rightTrigger()
-        .onTrue(deAlgae_m.spinDeAlgaeWheel().andThen(new DeAlgae(deAlgae_m, 220)))
-        .onFalse(new DeAlgae(deAlgae_m, 0).andThen(deAlgae_m.stopDeAlgaeWheel()));
+    // controller
+    //     .rightTrigger()
+    //     .onTrue(deAlgae_m.spinDeAlgaeWheel().andThen(new DeAlgae(deAlgae_m, 220)))
+    //     .onFalse(new DeAlgae(deAlgae_m, 0).andThen(deAlgae_m.stopDeAlgaeWheel()));
 
     // controller
     //     .leftTrigger()
